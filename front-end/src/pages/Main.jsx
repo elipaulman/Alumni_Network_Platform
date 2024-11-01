@@ -3,6 +3,8 @@ import CenteredTitle from "../components/CenteredTitle";
 import CalloutBox from "../components/CalloutBox";
 import alumain from "../images/alumain.png";
 
+// comment to fix pr 
+
 function Main() {
   return (
     <div className="flex-1 flex items-center justify-center p-6 flex-col">
