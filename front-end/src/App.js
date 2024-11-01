@@ -7,7 +7,7 @@ import About from './pages/About';
 import Directory from './pages/Directory';
 import Events from './pages/Events';
 import Feed from './pages/Feed';
-import Listings from './pages/Listings';
+import Opportunities from './pages/Opportunities';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
             <Route path="/directory" element={<Directory />} />
             <Route path="/events" element={<Events />} />
             <Route path="/feed" element={<Feed />} />
-            <Route path="/listings" element={<Listings />} />
+            <Route path="/opportunities" element={<Opportunities />} />
           </Routes>
         </div>
       </div>
