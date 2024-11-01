@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import indexRouter from './routes/index.js';
-import dbRouter from './routes/db.js'
+import dbRouter from './routes/dbTest.js'
 import * as dotenv from 'dotenv';
 import mongoose, { connect, Model, Schema } from 'mongoose';
 dotenv.config()

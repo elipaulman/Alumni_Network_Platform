@@ -3,7 +3,7 @@ import Test from '../models/test.js';
 
 const router = express.Router();
 
-// get all todos
+// get all test messages
 router.get('/', async (req, res) => {
   try {
     const todos = await Test.find({});
