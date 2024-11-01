@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['About', 'Directory', 'Events', 'Feed', 'Listings'];
+const pages = ['About', 'Directory', 'Events', 'Feed', 'Listings', 'Main'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
