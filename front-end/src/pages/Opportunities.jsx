@@ -15,7 +15,7 @@ const Opportunities = () => {
 
   return (
     <div className="p-4 font-sans bg-gray-100 min-h-screen">
-      <h1 className="text-4xl text-center mb-8 font-bold text-gray-800">Career Opportunities</h1>
+      <h1 className="text-4xl text-center mb-8 font-bold text-gray-800">Browse Opportunities</h1>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {opportunities.map(opportunity => (
           <li key={opportunity.id} className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
