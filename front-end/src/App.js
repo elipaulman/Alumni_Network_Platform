@@ -12,9 +12,9 @@ import Listings from './pages/Listings';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex flex-col bg-gray-100">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1">
           <Routes>
             <Route path="/" element={<CenteredTitle text="LMCC Alumni Network" />} />
             <Route path="/about" element={<About />} />
