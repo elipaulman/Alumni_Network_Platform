@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['About', 'Directory', 'Events', 'Feed', 'Listings'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -37,7 +36,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#00BDF2' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
