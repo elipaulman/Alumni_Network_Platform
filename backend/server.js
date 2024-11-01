@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import indexRouter from './routes/index.js';
+import dbRouter from './routes/db.js'
 import * as dotenv from 'dotenv';
 dotenv.config()
 
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(morgan());
 app.use(express.json());
 app.use('/', indexRouter);
+app.use('/db', dbRouter);
 
 const PORT = process.env.PORT || 5050;
 
