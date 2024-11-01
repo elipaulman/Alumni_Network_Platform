@@ -72,7 +72,7 @@ function Navbar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'left',
               }}
               keepMounted
@@ -82,7 +82,9 @@ function Navbar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -106,7 +108,9 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link to={`/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>
@@ -136,6 +140,7 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
