@@ -1,5 +1,9 @@
 import express from 'express';
+import Opportunity from '../models/opportunity.js';
+import multer from 'multer';
 const router = express.Router();
+
+const upload = multer();
 
 // POST /api/posts
 router.post('/post', upload.single('image'), async (req, res) => {
@@ -61,6 +65,45 @@ router.get('/user/:userId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching user posts:', error);
     res.status(500).json({ message: 'Error fetching posts', error: error.message });
+  }
+});
+
+router.post('/opportunity', async (req, res) => {
+  try {
+    const { opportunityName, description, location, category, artCategory } = req.body;
+
+    // Validate required fields
+    if (!opportunityName || !description || !location || !category) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields: opportunityName, description, location, and category'
+      });
+    }
+
+    const opportunity = await Opportunity.create(req.body);
+
+    return res.status(201).json({
+      success: true,
+      message: 'opportunity created successfully',
+      data: opportunity
+    });
+
+  } catch (error) {
+    console.error('Error creating opportunity:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error creating opportunity',
+      error: error.message
+    });
+  }
+});
+
+router.get('/opportunity', async (req, res) => {
+  try {
+    const opportunities = await Opportunity.find({});
+    res.status(200).json(opportunities);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching opportunities", error: error.message });
   }
 });
 

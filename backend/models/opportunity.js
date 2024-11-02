@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
-const eventSchema = new Schema({
-  eventName: {
+const opportunitySchema = new Schema({
+  opportunityName: {
     type: String,
     required: true
   },
@@ -22,6 +22,6 @@ const eventSchema = new Schema({
   }
 }, { timestamps: true });
 
-const Event = mongoose.model('Event', eventSchema);
+const Opportunity = mongoose.model('opportunity', opportunitySchema);
 
-export default Event;
+export default Opportunity;
