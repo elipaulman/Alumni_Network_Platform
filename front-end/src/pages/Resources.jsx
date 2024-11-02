@@ -60,7 +60,7 @@ const resources = [
 const categories = ['Work Samples', 'Grants', 'Arts Education'];
 
 const Resources = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('Work Samples');
   const [selectedResource, setSelectedResource] = useState(null);
 
   const handleCategoryClick = (category) => {
