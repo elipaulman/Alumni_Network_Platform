@@ -9,7 +9,7 @@ import Directory from './pages/Directory';
 import Events from './pages/Events';
 import Feed from './pages/Feed';
 import Opportunities from './pages/Opportunities';
-
+import Profile from './pages/Profile'; // Import Profile component
 
 function App() {
   return (
@@ -25,12 +25,11 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/opportunities" element={<Opportunities />} />
             <Route path="/main" element={<Main />} />
-
+            <Route path="/profile" element={<Profile />} /> {/* New route for Profile page */}
           </Routes>
         </div>
       </div>
     </Router>
-   
   );
 }
 
