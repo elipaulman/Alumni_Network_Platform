@@ -1,54 +1,39 @@
-import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, Button } from '@mui/material';
-
-const resources = [
-  {
-    title: 'Resource 1',
-    description: 'Description for resource 1',
-    image: 'https://via.placeholder.com/150',
-    link: '#'
-  },
-  {
-    title: 'Resource 2',
-    description: 'Description for resource 2',
-    image: 'https://via.placeholder.com/150',
-    link: '#'
-  },
-  {
-    title: 'Resource 3',
-    description: 'Description for resource 3',
-    image: 'https://via.placeholder.com/150',
-    link: '#'
-  }
-];
+import React from "react";
+import { Container, Typography, Grid, Paper } from "@mui/material";
 
 const Resources = () => {
+  const resources = [
+    {
+      title: "Resource 1",
+      pdfUrl: "https://example.com/resource1.pdf",
+    },
+    {
+      title: "Resource 2",
+      pdfUrl: "https://example.com/resource2.pdf",
+    },
+    {
+      title: "Resource 3",
+      pdfUrl: "https://example.com/resource3.pdf",
+    },
+  ];
+
   return (
-    <Container sx={{ py: 8 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
-      </Typography>
-      <Grid container spacing={4}>
+    <Container maxWidth="lg" style={{ marginTop: "40px" }}>
+      <Grid container spacing={3}>
         {resources.map((resource, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={resource.image}
-                alt={resource.title}
-              />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {resource.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {resource.description}
-                </Typography>
-              </CardContent>
-              <Button size="small" color="primary" href={resource.link} sx={{ m: 2 }}>
-                Learn More
-              </Button>
-            </Card>
+          <Grid item xs={12} md={6} key={index}>
+            <Paper elevation={3} style={{ padding: "20px" }}>
+              <Typography variant="h5" gutterBottom>
+                {resource.title}
+              </Typography>
+              <iframe
+                src={resource.pdfUrl}
+                width="100%"
+                height="500px"
+                title={resource.title}
+                style={{ border: "none" }}
+              ></iframe>
+            </Paper>
           </Grid>
         ))}
       </Grid>
