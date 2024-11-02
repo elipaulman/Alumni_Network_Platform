@@ -24,6 +24,7 @@ const Footer = () => {
       <p>&copy; 2024 Lower Manhattan Cultural Council, LMCC. All rights reserved..</p>
     </footer> 
     // 
+    // 
   );
 };
 
