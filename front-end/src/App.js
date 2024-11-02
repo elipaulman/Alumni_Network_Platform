@@ -13,7 +13,8 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Profile from './pages/Profile'; // Import Profile component
 import Resources from './pages/Resources';
-
+import Footer from './components/footer';
+// 
 function App() {
   return (
 
@@ -28,13 +29,14 @@ function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/opportunities" element={<Opportunities />} />
-            
+            {/*  */}
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/resources" element={<Resources />} />
           </Routes>
         </div>
+        <Footer />
       </div>
     
   );
