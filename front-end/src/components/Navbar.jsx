@@ -105,11 +105,11 @@ function Navbar() {
               <Button
                 key={page}
                 component={Link}
-                to={`/${page.toLowerCase()}`}
+                to={page === 'Main' ? '/' : `/${page.toLowerCase()}`}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link to={`/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link to={page === 'Main' ? '/' : `/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                   {page}
                 </Link>
               </Button>
