@@ -8,12 +8,10 @@ const postSchema = new Schema({
   },
   text: {
     type: String,
+    required: true,
     trim: true
   },
-  image: {
-    url: String,
-    name: String
-  },
+  image: String,
   tags: [{
     type: String,
     trim: true
