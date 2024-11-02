@@ -1,7 +1,10 @@
 import express from 'express';
 import Opportunity from '../models/opportunity.js';
+import multer from 'multer';
+import alumniRoutes from './alumniRoutes.js'
 import User from '../models/user.js';
 import Post from '../models/post.js';
+
 const router = express.Router();
 
 // // Create a new user
@@ -128,5 +131,7 @@ router.get('/opportunity', async (req, res) => {
     res.status(500).json({ message: "Error fetching opportunities", error: error.message });
   }
 });
+
+router.use('/alumni', alumniRoutes);
 
 export default router;

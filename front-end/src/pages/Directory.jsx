@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../components/Card';
+import axios from 'axios'; // Import axios to make HTTP requests
+import Card from '../components/Card'; // Import the Card component
 
 const AlumniDirectory = () => {
   const [directory, setDirectory] = useState([]);
@@ -8,17 +9,22 @@ const AlumniDirectory = () => {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [artCategoryFilter, setArtCategoryFilter] = useState('');
 
+  // Fetch the alumni data from the backend
   useEffect(() => {
     const fetchDirectory = async () => {
-      const jsonString = '[{"id":1,"userID":1,"name":"Emily Chen","description":"Watercolor artist specializing in nature scenes. Available for commissions and collaborations.","category":"Artist","location":"New York, NY","artCategory":"Watercolor"},{"id":2,"userID":2,"name":"Marcus Rodriguez","description":"Experienced sculptor working with metal and stone. Corporate installations and public art.","category":"Artist","location":"Los Angeles, CA","artCategory":"Sculpture"},{"id":3,"userID":3,"name":"Sarah Johnson","description":"Muralist with experience in community art projects. Specializes in large-scale works.","category":"Artist","location":"Chicago, IL","artCategory":"Mural"},{"id":4,"userID":4,"name":"David Park","description":"Mixed media artist and art educator. Currently running community workshops.","category":"Educator","location":"San Francisco, CA","artCategory":"Mixed Media"},{"id":5,"userID":5,"name":"Alex Thompson","description":"Digital artist and animator. Works in game design and interactive installations.","category":"Designer","location":"Miami, FL","artCategory":"Digital Art"},{"id":6,"userID":6,"name":"Lisa Wong","description":"Photography curator and gallery owner. Specializes in contemporary photography.","category":"Curator","location":"Seattle, WA","artCategory":"Photography"},{"id":7,"userID":7,"name":"James Mitchell","description":"Oil painter and art fair organizer. Focuses on abstract expressionism.","category":"Artist","location":"Austin, TX","artCategory":"Painting"},{"id":8,"userID":8,"name":"Maria Garcia","description":"Installation artist and grant writer. Works with sustainable materials.","category":"Artist","location":"Boston, MA","artCategory":"Installation"},{"id":9,"userID":9,"name":"Robert Lee","description":"Traditional oil painter and art instructor. Specializes in portraits.","category":"Educator","location":"Philadelphia, PA","artCategory":"Oil Painting"},{"id":10,"userID":10,"name":"Kate Williams","description":"Public artist and community organizer. Specializes in collaborative projects.","category":"Artist","location":"Portland, OR","artCategory":"Chalk Art"}]';
-      const directory = JSON.parse(jsonString);
-      setDirectory(directory);
-      setFilteredDirectory(directory);
+      try {
+        const response = await axios.get('http://localhost:5050/db/alumni');
+        setDirectory(response.data);
+        setFilteredDirectory(response.data);
+      } catch (error) {
+        console.error('Error fetching alumni:', error);
+      }
     };
 
     fetchDirectory();
   }, []);
 
+  // Update filtered directory whenever a filter changes
   useEffect(() => {
     if (directory.length > 0) {
       filterDirectory();
@@ -101,15 +107,11 @@ const AlumniDirectory = () => {
           />
         </div>
       </div>
-      <div> 
-        {/*  */}
-        {/*  */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredDirectory.map(alumni => (
-            <Card key={alumni.id} data={alumni} />
-          ))}
-        </ul>
-      </div>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredDirectory.map(alumni => (
+          <Card key={alumni._id} data={alumni} />
+        ))}
+      </ul>
     </div>
   );
 };
