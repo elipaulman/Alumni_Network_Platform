@@ -28,6 +28,18 @@ const userSchema = new Schema({
     state: { type: String },
     city: { type: String }
   },
+  description: { 
+    type: String 
+  },
+  category: { 
+    type: String, required: true
+   },
+  locatison_alum: { 
+    type: String, required: true
+  },
+  artCategory: { 
+    type: String 
+  },
   posts: [{
     type: Schema.Types.ObjectId,
     ref: 'Post'

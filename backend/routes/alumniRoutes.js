@@ -1,12 +1,12 @@
 import express from 'express';
-import Alumni from '../models/alumni.js';
+import User from '../models/user.js';
 
 const router = express.Router();
 
 // GET /db/alumni - Get all alumni
 router.get('/', async (req, res) => {
   try {
-    const alumni = await Alumni.find({});
+    const alumni = await User.find({});
     res.status(200).json(alumni);
   } catch (error) {
     console.error('Error fetching alumni:', error);
@@ -17,16 +17,16 @@ router.get('/', async (req, res) => {
 // POST /db/alumni - Create a new alumni entry
 router.post('/', async (req, res) => {
   try {
-    const { name, description, location, category, artCategory } = req.body;
+    const { firstName, lastName, description, location_alum, category, artCategory } = req.body;
 
-    if (!name && !location && !category) {
+    if (!firstName && !lastName && !location_alum && !category) {
       return res.status(400).json({
         success: false,
         message: 'Please provide required fields: name, location, and category'
       });
     }
 
-    const alumni = await Alumni.create(req.body);
+    const alumni = await User.create(req.body);
 
     res.status(201).json({
       success: true,
