@@ -24,19 +24,16 @@ const userSchema = new Schema({
   interests: {
     type: String
   },
-  location: {
-    state: { type: String },
-    city: { type: String }
+  location: { 
+    type: String
   },
   description: { 
     type: String 
   },
   category: { 
-    type: String, required: true
+    type: String
    },
-  location_alum: { 
-    type: String, required: true
-  },
+  
   artCategory: { 
     type: String 
   },
