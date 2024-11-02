@@ -34,7 +34,7 @@ const userSchema = new Schema({
   category: { 
     type: String, required: true
    },
-  locatison_alum: { 
+  location_alum: { 
     type: String, required: true
   },
   artCategory: { 
