@@ -9,6 +9,7 @@ import Events from './pages/Events';
 import Feed from './pages/Feed';
 import Opportunities from './pages/Opportunities';
 
+
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
         </div>
       </div>
     </Router>
+   
   );
 }
 
