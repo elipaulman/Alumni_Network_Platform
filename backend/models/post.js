@@ -15,9 +15,16 @@ const postSchema = new Schema({
     data: Buffer,         // Store the actual image data
     contentType: String,  // Store the image type (e.g., 'image/jpeg', 'image/png')
     name: String         // Original filename
+  },
+  tags: [{
+    type: String,
+    trim: true
+  }],
+  category: {
+    type: String,
+    trim: true
   }
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);
-
 export default Post;
