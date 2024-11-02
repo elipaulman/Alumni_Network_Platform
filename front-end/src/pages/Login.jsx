@@ -19,7 +19,7 @@ const Login = () => {
         
         try {
             const res = await axios.post("/auth/login", user);
-            res.data && window.location.replace("/main");
+            res.data && window.location.replace("/");
         } catch (err) {
             console.log(err);
         }

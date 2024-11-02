@@ -13,8 +13,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Main','About', 'Directory', 'Events', 'Feed', 'Opportunities'];
-const settings = ['Profile',];
+const pages = ['Main', 'About', 'Directory', 'Events', 'Feed', 'Opportunities', 'Resources'];
+const authPages = ['Signup', 'Login'];
+const settings = ['Profile'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -86,7 +87,7 @@ function Navbar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {[...pages, ...authPages].map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -101,6 +102,23 @@ function Navbar() {
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <Button
+                key={page}
+                component={Link}
+                to={page === 'Main' ? '/' : `/${page.toLowerCase()}`}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                <Link to={page === 'Main' ? '/' : `/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {page}
+                </Link>
+              </Button>
+            ))}
+          </Box>
+
+          {/* Auth Buttons (shifted to the right) */}
+          <Box sx={{ ml: 'auto', display: { xs: 'none', md: 'flex' } }}>
+            {authPages.map((page) => (
               <Button
                 key={page}
                 component={Link}
