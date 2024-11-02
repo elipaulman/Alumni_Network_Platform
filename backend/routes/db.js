@@ -39,4 +39,29 @@ router.post('/post', upload.single('image'), async (req, res) => {
   }
 });
 
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    // Find all posts by user ID, sorted by creation date (newest first)
+    const posts = await Post.find({ user: userId })
+      .populate('user', 'firstName lastName') // Get user details
+      .sort({ createdAt: -1 });
+    
+    // Convert image buffers to base64 strings for transmission
+    const postsWithImages = posts.map(post => {
+      const postObject = post.toObject();
+      if (postObject.image && postObject.image.data) {
+        postObject.image.data = postObject.image.data.toString('base64');
+      }
+      return postObject;
+    });
+
+    res.json(postsWithImages);
+  } catch (error) {
+    console.error('Error fetching user posts:', error);
+    res.status(500).json({ message: 'Error fetching posts', error: error.message });
+  }
+});
+
 export default router;
