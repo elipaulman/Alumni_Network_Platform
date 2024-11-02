@@ -165,6 +165,31 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+
+
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    // Check if the provided password matches
+    if (user.password !== password) { // For real-world applications, hash passwords and use bcrypt.compare()
+      return res.status(400).json({ error: 'Invalid password' });
+    }
+
+    // If login is successful, respond with user data or a token
+    res.status(200).json({ message: 'Login successful', user });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Error logging in' });
+  }
+});
+
 export default router;
 
 
