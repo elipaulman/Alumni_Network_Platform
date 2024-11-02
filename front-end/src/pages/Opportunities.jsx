@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios for HTTP requests
-import Card from "../components/Card"; // Import the Card component
+import axios from "axios";
+import Card from "../components/Card";
 
 const Opportunities = () => {
   const [opportunities, setOpportunities] = useState([]);
@@ -31,7 +31,7 @@ const Opportunities = () => {
     try {
       const response = await axios.get("http://localhost:5050/db/opportunity/");
       setOpportunities(response.data);
-      setFilteredOpportunities(response.data); // Set filtered opportunities immediately after fetching
+      setFilteredOpportunities(response.data);
     } catch (error) {
       console.error("Error fetching opportunities:", error);
     }
@@ -94,10 +94,10 @@ const Opportunities = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting new opportunity:", newOpportunity); // Debugging: Log the data being sent
+    console.log("Submitting new opportunity:", newOpportunity);
     try {
       await axios.post("http://localhost:5050/db/opportunity/", newOpportunity);
-      console.log("New opportunity posted successfully"); // Debugging: Log the response from the server
+      console.log("New opportunity posted successfully");
       setNewOpportunity({
         opportunityName: "",
         description: "",
@@ -106,9 +106,9 @@ const Opportunities = () => {
         artCategory: "",
       });
       setIsFormVisible(false);
-      fetchOpportunities(); // Fetch the updated list of opportunities
+      fetchOpportunities();
     } catch (error) {
-      console.error("Error posting opportunity:", error.response.data); // Debugging: Log the error response
+      console.error("Error posting opportunity:", error.response.data);
     }
   };
 
