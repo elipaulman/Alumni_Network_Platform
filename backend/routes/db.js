@@ -6,7 +6,49 @@ import User from '../models/user.js';
 import Post from '../models/post.js';
 
 const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
+// router.get('/users/:email', async (req, res) => {
+//   try {
+//     const user = await User.findOne({ email: req.params.email });
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//     res.json(user);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error fetching user profile' });
+//   }
+// });
+
+// Update user profile picture
+// router.post('/users/profile-picture', upload.single('profilePicture'), async (req, res) => {
+//   try {
+//     const email = req.cookies.email; // Get email from cookie
+
+//     if (!email) {
+//       return res.status(400).json({ error: 'User email not found in cookies' });
+//     }
+
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     // Update profile picture
+//     if (req.file) {
+//       user.profilePicture = {
+//         data: req.file.buffer,
+//         contentType: req.file.mimetype,
+//       };
+//     }
+
+//     await user.save();
+//     res.status(200).json({ message: 'Profile picture updated successfully' });
+//   } catch (error) {
+//     console.error('Error updating profile picture:', error);
+//     res.status(500).json({ error: 'Error updating profile picture' });
+//   }
+// });
 // Create a new user
 router.post('/users', async (req, res) => {
   try {
@@ -183,7 +225,11 @@ router.post('/login', async (req, res) => {
     // Check if the provided password matches
     if (user.password !== password) { // For real-world applications, hash passwords and use bcrypt.compare()
       return res.status(400).json({ error: 'Invalid password' });
-    }
+    } 
+    // res.cookie('email', email, {
+    //   httpOnly: false, // Accessible in JavaScript
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    // });
 
     // If login is successful, respond with user data or a token
     res.status(200).json({ message: 'Login successful', user });
