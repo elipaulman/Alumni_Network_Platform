@@ -113,14 +113,14 @@ const Opportunities = () => {
   };
 
   return (
-    <div className="p-4 font-sans bg-gray-100 min-h-screen">
-      <h1 className="text-4xl text-center mb-8 font-bold text-gray-800">
+    <div className="p-6 font-sans bg-white min-h-screen">
+      <h1 className="text-5xl text-center mb-12 font-extrabold text-gray-800 tracking-wide">
         Browse and Share Opportunities
       </h1>
-      <div className="mb-8 text-center">
+      <div className="mb-10 text-center">
         <button
           onClick={() => setIsFormVisible(!isFormVisible)}
-          className="px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+          className="px-8 py-4 bg-gradient-to-r from-[#00BDF2] to-[#00BDF2] text-white rounded-3xl shadow-xl hover:shadow-2xl hover:scale-105 transform transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[#00BDF2]"
         >
           {isFormVisible ? "Cancel" : "Share an Opportunity"}
         </button>
@@ -128,9 +128,9 @@ const Opportunities = () => {
       {isFormVisible && (
         <form
           onSubmit={handleFormSubmit}
-          className="mb-8 bg-white p-6 rounded-lg shadow-md space-y-4"
+          className="mb-10 bg-white p-8 rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl space-y-6"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 text-gray-700 font-semibold">
                 Opportunity Name:
@@ -140,7 +140,7 @@ const Opportunities = () => {
                 name="opportunityName"
                 value={newOpportunity.opportunityName}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                 required
               />
             </div>
@@ -153,7 +153,7 @@ const Opportunities = () => {
                 name="location"
                 value={newOpportunity.location}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                 required
               />
             </div>
@@ -166,11 +166,11 @@ const Opportunities = () => {
               name="description"
               value={newOpportunity.description}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
               required
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 text-gray-700 font-semibold">
                 Category:
@@ -180,7 +180,7 @@ const Opportunities = () => {
                 name="category"
                 value={newOpportunity.category}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                 required
               />
             </div>
@@ -193,7 +193,7 @@ const Opportunities = () => {
                 name="artCategory"
                 value={newOpportunity.artCategory}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
                 required
               />
             </div>
@@ -201,15 +201,15 @@ const Opportunities = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="px-6 py-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 ease-in-out"
+              className="px-8 py-4 bg-gradient-to-r from-[#00BDF2] to-teal-500 text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transform transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               Submit
             </button>
           </div>
         </form>
       )}
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
+      <div className="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
           <label className="block mb-2 text-gray-700 font-semibold">
             Filter by Location:
           </label>
@@ -217,11 +217,11 @@ const Opportunities = () => {
             type="text"
             value={locationFilter}
             onChange={handleLocationFilterChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
             placeholder="City, State"
           />
         </div>
-        <div>
+        <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
           <label className="block mb-2 text-gray-700 font-semibold">
             Filter by Opportunity Type:
           </label>
@@ -229,11 +229,11 @@ const Opportunities = () => {
             type="text"
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
             placeholder="Commission, Residency, etc"
           />
         </div>
-        <div>
+        <div className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
           <label className="block mb-2 text-gray-700 font-semibold">
             Filter by Art Category:
           </label>
@@ -241,15 +241,19 @@ const Opportunities = () => {
             type="text"
             value={artCategoryFilter}
             onChange={handleArtCategoryFilterChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
             placeholder="Painting, Sculpture, etc"
           />
         </div>
       </div>
       
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {filteredOpportunities.map((opportunity) => (
-          <Card key={opportunity._id} data={opportunity} />
+          <Card
+            key={opportunity._id}
+            data={opportunity}
+            className="transform hover:scale-105 transition-transform duration-300 ease-in-out hover:shadow-2xl"
+          />
         ))}
       </ul>
     </div>
@@ -257,3 +261,6 @@ const Opportunities = () => {
 };
 
 export default Opportunities;
+
+
+

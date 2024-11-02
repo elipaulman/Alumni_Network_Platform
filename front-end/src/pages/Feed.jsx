@@ -1,34 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
 const Feed = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "John Doe",
-      content: "This is my first post!",
-      image: "https://via.placeholder.com/600x400",
-      tags: ["fun", "firstpost"],
-      category: "Watercolor",
-      comments: [
-        { id: 1, user: "Jane Smith", content: "Great post!" },
-        { id: 2, user: "Alice Johnson", content: "Thanks for sharing!" },
-        { id: 3, user: "Bob Brown", content: "Nice!" },
-        { id: 4, user: "Charlie Davis", content: "Awesome!" },
-        { id: 5, user: "Emily Clark", content: "Love it!" },
-      ],
-    },
-    {
-      id: 2,
-      user: "Alice Johnson",
-      content: "Hello everyone!",
-      image: "https://via.placeholder.com/600x400",
-      tags: ["hello", "everyone"],
-      category: "Sculpture",
-      comments: [],
-    },
-  ]);
-
+  const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({
     content: "",
     image: "",
@@ -40,9 +14,11 @@ const Feed = () => {
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [isPostFormVisible, setIsPostFormVisible] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [userNames, setUserNames] = useState({});
 
-  const currentUser = "Current User";
-  const HARDCODED_USER_ID = "672568bd438271a8542e28c9";
+  // Update later to get current user from auth context
+  const currentUser = "User Name";
+  const HARDCODED_USER_EMAIL = "user@gmail.com";
 
   const categories = [
     "Sculpture",
@@ -52,6 +28,36 @@ const Feed = () => {
     "Mixed Media",
     "Other",
   ];
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get('http://localhost:5050/db/posts/');
+      setPosts(response.data);
+      fetchUserNames(response.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
+  const fetchUserNames = async (posts) => {
+    const userEmails = [...new Set(posts.map(post => post.userEmail))];
+    const userNamesMap = {};
+
+    await Promise.all(userEmails.map(async (email) => {
+      try {
+        const response = await axios.get(`http://localhost:5050/db/users/${email}`);
+        userNamesMap[email] = `${response.data.firstName} ${response.data.lastName}`;
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    }));
+
+    setUserNames(userNamesMap);
+  };
 
   const handlePostChange = (e) => {
     const { name, value } = e.target;
@@ -69,12 +75,9 @@ const Feed = () => {
 
     try {
       const postData = {
-        user: HARDCODED_USER_ID,
+        userEmail: HARDCODED_USER_EMAIL,
         text: newPost.content,
-        image: {
-          url: newPost.image,
-          name: "image" // You might want to extract the filename from the URL or let users input it
-        },
+        image: newPost.image,
         tags: newPost.tags.split(",").map((tag) => tag.trim()),
         category: newPost.category
       };
@@ -82,24 +85,12 @@ const Feed = () => {
       const response = await axios.post('http://localhost:5050/db/posts/', postData);
 
       if (response.data) {
-        // Add new post to local state
-        const newPostData = {
-          id: posts.length + 1,
-          user: currentUser,
-          content: newPost.content,
-          image: newPost.image,
-          tags: newPost.tags.split(",").map((tag) => tag.trim()),
-          category: newPost.category,
-          comments: [],
-        };
-        
-        setPosts([newPostData, ...posts]);
+        fetchPosts();
         setNewPost({ content: "", image: "", tags: "", category: "" });
         setIsPostFormVisible(false);
       }
     } catch (error) {
       console.error('Error creating post:', error);
-      // You might want to add error handling UI here
     }
   };
 
@@ -107,29 +98,25 @@ const Feed = () => {
     setNewComment(e.target.value);
   };
 
-  const handleCommentSubmit = (postId) => {
+  const handleCommentSubmit = async (postId) => {
     if (newComment.trim() === "") return;
 
-    const updatedPosts = posts.map((post) => {
-      if (post.id === postId) {
-        return {
-          ...post,
-          comments: [
-            ...post.comments,
-            {
-              id: post.comments.length + 1,
-              user: currentUser,
-              content: newComment,
-            },
-          ],
-        };
-      }
-      return post;
-    });
+    try {
+      const commentData = {
+        user: currentUser,
+        content: newComment
+      };
 
-    setPosts(updatedPosts);
-    setNewComment("");
-    setActivePostId(null);
+      const response = await axios.post(`http://localhost:5050/db/posts/${postId}/comments`, commentData);
+
+      if (response.data) {
+        fetchPosts();
+        setNewComment("");
+        setActivePostId(null);
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
 
   const toggleExpandComments = (postId) => {
@@ -151,7 +138,7 @@ const Feed = () => {
           <h1 className="text-4xl font-bold text-gray-800">Your Feed</h1>
           <button
             onClick={() => setIsPostFormVisible(!isPostFormVisible)}
-            className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+            className="flex items-center px-6 py-3 bg-[#00BDF2] text-white rounded-full shadow-lg hover:bg-[#00a6cf] focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
           >
             <span className="mr-2 text-lg font-medium">Create Post</span>
             <svg
@@ -175,59 +162,68 @@ const Feed = () => {
             onSubmit={handlePostSubmit}
             className="bg-white border border-gray-200 rounded-lg shadow-md p-4 space-y-4"
           >
-            <h2 className="text-xl font-semibold text-gray-800">
-              Create a New Post
-            </h2>
-            <textarea
-              name="content"
-              value={newPost.content}
-              onChange={handlePostChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="What's on your mind?"
-              rows="3"
-            />
-            <input
-              type="url"
-              name="image"
-              value={newPost.image}
-              onChange={handlePostChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter image URL"
-            />
-            {newPost.image && (
-              <img
-                src={newPost.image}
-                alt="Preview"
-                className="w-20 h-20 object-cover rounded"
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Content:
+              </label>
+              <textarea
+                name="content"
+                value={newPost.content}
+                onChange={handlePostChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
+                required
               />
-            )}
-            <input
-              type="text"
-              name="tags"
-              value={newPost.tags}
-              onChange={handlePostChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Tags (comma separated)"
-            />
-            <select
-              name="category"
-              value={newPost.category}
-              onChange={handlePostChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Category</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-            <div className="flex justify-end">
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Image URL:
+              </label>
+              <input
+                type="text"
+                name="image"
+                value={newPost.image}
+                onChange={handlePostChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Tags (comma separated):
+              </label>
+              <input
+                type="text"
+                name="tags"
+                value={newPost.tags}
+                onChange={handlePostChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Category:
+              </label>
+              <select
+                name="category"
+                value={newPost.category}
+                onChange={handlePostChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
+                required
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="text-center">
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="px-6 py-3 bg-[#00BDF2] text-white rounded-full shadow-lg hover:bg-[#00a6cf] focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
               >
-                Post
+                Submit
               </button>
             </div>
           </form>
@@ -236,7 +232,7 @@ const Feed = () => {
           <select
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
           >
             <option value="">Filter by Category</option>
             {categories.map((category) => (
@@ -246,88 +242,79 @@ const Feed = () => {
             ))}
           </select>
         </div>
-        {/* Rest of the JSX remains the same */}
         {filteredPosts.map((post) => (
-          // ... existing post rendering code
           <div
-            key={post.id}
-            className="bg-white border border-gray-200 rounded-lg shadow-md"
+            key={post._id}
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
           >
             <div className="p-4 flex items-center">
               <img
-                src={`https://i.pravatar.cc/150?img=${post.id}`}
+                src={`https://i.pravatar.cc/150?img=${post._id}`}
                 alt="User avatar"
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 rounded-full mr-4 border-2 border-[#00BDF2]"
               />
               <div>
                 <h2 className="text-lg font-semibold text-gray-800">
-                  {post.user}
+                  {userNames[post.userEmail] || post.userEmail}
                 </h2>
                 <p className="text-sm text-gray-500">Posted 2 hours ago</p>
               </div>
             </div>
-            <img src={post.image} alt="Post" className="w-full h-auto" />
+            <img src={post.image} alt="Post" className="w-full h-auto rounded-t-lg" />
             <div className="p-4">
-              <p className="text-gray-800 mb-1">{post.content}</p>
-              <p className="text-sm text-gray-500 mb-1">{post.category}</p>
+              <p className="text-gray-800 mb-1 font-medium">{post.text}</p>
+              <p className="text-sm text-gray-500 italic mb-1">{post.category}</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {post.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-500 px-2 py-1 rounded-full text-sm"
+                    className="bg-[#00BDF2] text-white px-2 py-1 rounded-full text-sm shadow-sm"
                   >
                     #{tag}
                   </span>
                 ))}
               </div>
               <div className="space-y-2">
-                {post.comments
-                  .slice(
+                {post.comments && post.comments.slice(
                     0,
-                    expandedPostId === post.id ? post.comments.length : 1
+                    expandedPostId === post._id ? post.comments.length : 1
                   )
                   .map((comment) => (
-                    <div key={comment.id} className="bg-gray-100 p-2 rounded">
+                    <div key={comment._id} className="bg-gray-100 p-2 rounded">
                       <p className="text-sm font-semibold text-gray-700">
                         {comment.user}
                       </p>
                       <p className="text-sm text-gray-600">{comment.content}</p>
                     </div>
                   ))}
-                {post.comments.length > 3 && (
+                {post.comments && post.comments.length > 1 && (
                   <button
-                    onClick={() => toggleExpandComments(post.id)}
-                    className="text-blue-500 hover:underline"
+                    onClick={() => toggleExpandComments(post._id)}
+                    className="text-[#00BDF2] hover:underline"
                   >
-                    {expandedPostId === post.id
+                    {expandedPostId === post._id
                       ? "Show less"
-                      : `Show more (${post.comments.length - 3} more)`}
+                      : `Show more (${post.comments.length - 1} more)`}
                   </button>
                 )}
               </div>
-              {activePostId === post.id && (
-                <div className="mt-4">
-                  <input
-                    type="text"
-                    value={newComment}
-                    onChange={handleCommentChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Add a comment"
-                  />
-                  <button
-                    onClick={() => handleCommentSubmit(post.id)}
-                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  >
-                    Submit
-                  </button>
-                </div>
-              )}
-              <button
-                onClick={() => setActivePostId(post.id)}
-                className="mt-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-              >
-                {activePostId === post.id ? "Cancel" : "Comment"}
-              </button>
+            </div>
+            <div className="p-4 border-t border-gray-200">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                value={activePostId === post._id ? newComment : ""}
+                onChange={handleCommentChange}
+                onFocus={() => setActivePostId(post._id)}
+                onBlur={() => setActivePostId(null)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleCommentSubmit(post._id);
+                  }
+                }}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
+              />
             </div>
           </div>
         ))}
