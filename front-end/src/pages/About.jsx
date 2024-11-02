@@ -62,6 +62,7 @@ const GoalsAccordion = () => {
           </Typography>
         </AccordionDetails>
       </Accordion>
+      {/*  */}
       
       <Accordion className="accordion">
         <AccordionSummary 
