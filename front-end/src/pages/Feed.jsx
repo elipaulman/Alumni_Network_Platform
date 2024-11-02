@@ -138,7 +138,7 @@ const Feed = () => {
           <h1 className="text-4xl font-bold text-gray-800">Your Feed</h1>
           <button
             onClick={() => setIsPostFormVisible(!isPostFormVisible)}
-            className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+            className="flex items-center px-6 py-3 bg-[#00BDF2] text-white rounded-full shadow-lg hover:bg-[#00a6cf] focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
           >
             <span className="mr-2 text-lg font-medium">Create Post</span>
             <svg
@@ -170,7 +170,7 @@ const Feed = () => {
                 name="content"
                 value={newPost.content}
                 onChange={handlePostChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
                 required
               />
             </div>
@@ -183,7 +183,7 @@ const Feed = () => {
                 name="image"
                 value={newPost.image}
                 onChange={handlePostChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
                 required
               />
             </div>
@@ -196,7 +196,7 @@ const Feed = () => {
                 name="tags"
                 value={newPost.tags}
                 onChange={handlePostChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
               />
             </div>
             <div>
@@ -207,7 +207,7 @@ const Feed = () => {
                 name="category"
                 value={newPost.category}
                 onChange={handlePostChange}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
                 required
               >
                 <option value="">Select a category</option>
@@ -221,7 +221,7 @@ const Feed = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="px-6 py-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 ease-in-out"
+                className="px-6 py-3 bg-[#00BDF2] text-white rounded-full shadow-lg hover:bg-[#00a6cf] focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
               >
                 Submit
               </button>
@@ -232,7 +232,7 @@ const Feed = () => {
           <select
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
           >
             <option value="">Filter by Category</option>
             {categories.map((category) => (
@@ -245,13 +245,13 @@ const Feed = () => {
         {filteredPosts.map((post) => (
           <div
             key={post._id}
-            className="bg-white border border-gray-200 rounded-lg shadow-md"
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-200 ease-in-out"
           >
             <div className="p-4 flex items-center">
               <img
                 src={`https://i.pravatar.cc/150?img=${post._id}`}
                 alt="User avatar"
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 rounded-full mr-4 border-2 border-[#00BDF2]"
               />
               <div>
                 <h2 className="text-lg font-semibold text-gray-800">
@@ -260,15 +260,15 @@ const Feed = () => {
                 <p className="text-sm text-gray-500">Posted 2 hours ago</p>
               </div>
             </div>
-            <img src={post.image} alt="Post" className="w-full h-auto" />
+            <img src={post.image} alt="Post" className="w-full h-auto rounded-t-lg" />
             <div className="p-4">
-              <p className="text-gray-800 mb-1">{post.text}</p>
-              <p className="text-sm text-gray-500 mb-1">{post.category}</p>
+              <p className="text-gray-800 mb-1 font-medium">{post.text}</p>
+              <p className="text-sm text-gray-500 italic mb-1">{post.category}</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {post.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-blue-100 text-blue-500 px-2 py-1 rounded-full text-sm"
+                    className="bg-[#00BDF2] text-white px-2 py-1 rounded-full text-sm shadow-sm"
                   >
                     #{tag}
                   </span>
@@ -290,7 +290,7 @@ const Feed = () => {
                 {post.comments && post.comments.length > 1 && (
                   <button
                     onClick={() => toggleExpandComments(post._id)}
-                    className="text-blue-500 hover:underline"
+                    className="text-[#00BDF2] hover:underline"
                   >
                     {expandedPostId === post._id
                       ? "Show less"
@@ -313,7 +313,7 @@ const Feed = () => {
                     handleCommentSubmit(post._id);
                   }
                 }}
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
               />
             </div>
           </div>
