@@ -81,17 +81,17 @@ const Opportunities = () => {
             value={locationFilter}
             onChange={handleLocationFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter location"
+            placeholder="City, State"
           />
         </div>
         <div>
-          <label className="block mb-2 text-gray-700 font-semibold">Filter by Category:</label>
+          <label className="block mb-2 text-gray-700 font-semibold">Filter by Opportunity Type:</label>
           <input
             type="text"
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter category"
+            placeholder="Commission, Residency, etc"
           />
         </div>
         <div>
@@ -101,7 +101,7 @@ const Opportunities = () => {
             value={artCategoryFilter}
             onChange={handleArtCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter art category"
+            placeholder="Painting, Sculpture, etc"
           />
         </div>
       </div>
