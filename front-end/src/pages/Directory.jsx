@@ -1,57 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../components/Card'; // Import the Card component
+import Card from '../components/Card';
 
-const Opportunities = () => {
-  const [opportunities, setOpportunities] = useState([]);
-  const [filteredOpportunities, setFilteredOpportunities] = useState([]);
+const AlumniDirectory = () => {
+  const [directory, setDirectory] = useState([]);
+  const [filteredDirectory, setFilteredDirectory] = useState([]);
   const [locationFilter, setLocationFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [artCategoryFilter, setArtCategoryFilter] = useState('');
 
   useEffect(() => {
-    const fetchOpportunities = async () => {
-      const jsonString = '[{"id":1,"userID":1,"name":"Private Art Commission","description":"Create a custom piece of art for a private collector. Open to all styles.","category":"Commission","location":"New York, NY","artCategory":"Watercolor"},{"id":2,"userID":2,"name":"Corporate Art Commission","description":"Design and create artwork for a corporate office. Open to experienced artists.","category":"Commission","location":"Los Angeles, CA","artCategory":"Sculpture"},{"id":3,"userID":3,"name":"Public Art Commission","description":"Develop a public art piece for a new community center. Open to proposals.","category":"Commission","location":"Chicago, IL","artCategory":"Mural"},{"id":4,"userID":4,"name":"Artist Residency Program","description":"Apply for a 3-month artist residency program. Studio space and stipend provided.","category":"Residency","location":"San Francisco, CA","artCategory":"Mixed Media"},{"id":5,"userID":5,"name":"Art Competition","description":"Participate in the annual art competition. Cash prizes for winners.","category":"Competition","location":"Miami, FL","artCategory":"Digital Art"},{"id":6,"userID":6,"name":"Gallery Internship","description":"Intern at a contemporary art gallery. Gain hands-on experience in gallery operations.","category":"Internship","location":"Seattle, WA","artCategory":"Photography"},{"id":7,"userID":7,"name":"Art Fair Participation","description":"Exhibit your work at the upcoming art fair. Open to all artists.","category":"Fair","location":"Austin, TX","artCategory":"Painting"},{"id":8,"userID":8,"name":"Art Grant Application","description":"Apply for an art grant to fund your next project. Open to all disciplines.","category":"Grant","location":"Boston, MA","artCategory":"Installation"},{"id":9,"userID":9,"name":"Art Auction","description":"Submit your artwork for the charity art auction. Proceeds go to local charities.","category":"Auction","location":"Philadelphia, PA","artCategory":"Oil Painting"},{"id":10,"userID":10,"name":"Art Collaboration Project","description":"Collaborate with other artists on a large-scale mural project. Open to all skill levels.","category":"Collaboration","location":"Portland, OR","artCategory":"Chalk Art"}]';
-      const opportunities = JSON.parse(jsonString);
-      setOpportunities(opportunities);
-      setFilteredOpportunities(opportunities); // Set filtered opportunities immediately after fetching
+    const fetchDirectory = async () => {
+      const jsonString = '[{"id":1,"userID":1,"name":"Emily Chen","description":"Watercolor artist specializing in nature scenes. Available for commissions and collaborations.","category":"Artist","location":"New York, NY","artCategory":"Watercolor"},{"id":2,"userID":2,"name":"Marcus Rodriguez","description":"Experienced sculptor working with metal and stone. Corporate installations and public art.","category":"Artist","location":"Los Angeles, CA","artCategory":"Sculpture"},{"id":3,"userID":3,"name":"Sarah Johnson","description":"Muralist with experience in community art projects. Specializes in large-scale works.","category":"Artist","location":"Chicago, IL","artCategory":"Mural"},{"id":4,"userID":4,"name":"David Park","description":"Mixed media artist and art educator. Currently running community workshops.","category":"Educator","location":"San Francisco, CA","artCategory":"Mixed Media"},{"id":5,"userID":5,"name":"Alex Thompson","description":"Digital artist and animator. Works in game design and interactive installations.","category":"Designer","location":"Miami, FL","artCategory":"Digital Art"},{"id":6,"userID":6,"name":"Lisa Wong","description":"Photography curator and gallery owner. Specializes in contemporary photography.","category":"Curator","location":"Seattle, WA","artCategory":"Photography"},{"id":7,"userID":7,"name":"James Mitchell","description":"Oil painter and art fair organizer. Focuses on abstract expressionism.","category":"Artist","location":"Austin, TX","artCategory":"Painting"},{"id":8,"userID":8,"name":"Maria Garcia","description":"Installation artist and grant writer. Works with sustainable materials.","category":"Artist","location":"Boston, MA","artCategory":"Installation"},{"id":9,"userID":9,"name":"Robert Lee","description":"Traditional oil painter and art instructor. Specializes in portraits.","category":"Educator","location":"Philadelphia, PA","artCategory":"Oil Painting"},{"id":10,"userID":10,"name":"Kate Williams","description":"Public artist and community organizer. Specializes in collaborative projects.","category":"Artist","location":"Portland, OR","artCategory":"Chalk Art"}]';
+      const directory = JSON.parse(jsonString);
+      setDirectory(directory);
+      setFilteredDirectory(directory);
     };
 
-    fetchOpportunities();
+    fetchDirectory();
   }, []);
 
   useEffect(() => {
-    if (opportunities.length > 0) {
-      filterOpportunities();
+    if (directory.length > 0) {
+      filterDirectory();
     }
-  }, [opportunities, locationFilter, categoryFilter, artCategoryFilter]);
+  }, [directory, locationFilter, categoryFilter, artCategoryFilter]);
 
-  const filterOpportunities = () => {
-    let filtered = opportunities;
+  const filterDirectory = () => {
+    let filtered = directory;
 
     if (!locationFilter && !categoryFilter && !artCategoryFilter) {
-      setFilteredOpportunities(opportunities);
+      setFilteredDirectory(directory);
       return;
     }
 
     if (locationFilter) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.location.toLowerCase().includes(locationFilter.toLowerCase())
+      filtered = filtered.filter(alumni =>
+        alumni.location.toLowerCase().includes(locationFilter.toLowerCase())
       );
     }
 
     if (categoryFilter) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.category.toLowerCase().includes(categoryFilter.toLowerCase())
+      filtered = filtered.filter(alumni =>
+        alumni.category.toLowerCase().includes(categoryFilter.toLowerCase())
       );
     }
 
     if (artCategoryFilter) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.artCategory.toLowerCase().includes(artCategoryFilter.toLowerCase())
+      filtered = filtered.filter(alumni =>
+        alumni.artCategory.toLowerCase().includes(artCategoryFilter.toLowerCase())
       );
     }
 
-    setFilteredOpportunities(filtered);
+    setFilteredDirectory(filtered);
   };
 
   const handleLocationFilterChange = (e) => {
@@ -81,33 +81,33 @@ const Opportunities = () => {
           />
         </div>
         <div>
-          <label className="block mb-2 text-gray-700 font-semibold">Filter by Category:</label>
+          <label className="block mb-2 text-gray-700 font-semibold">Filter by Role:</label>
           <input
             type="text"
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter category"
+            placeholder="Enter role (Artist, Educator, etc.)"
           />
         </div>
         <div>
-          <label className="block mb-2 text-gray-700 font-semibold">Filter by Art Category:</label>
+          <label className="block mb-2 text-gray-700 font-semibold">Filter by Specialty:</label>
           <input
             type="text"
             value={artCategoryFilter}
             onChange={handleArtCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter art category"
+            placeholder="Enter art specialty"
           />
         </div>
       </div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredOpportunities.map(opportunity => (
-          <Card key={opportunity.id} data={opportunity} />
+        {filteredDirectory.map(alumni => (
+          <Card key={alumni.id} data={alumni} />
         ))}
       </ul>
     </div>
   );
 };
 
-export default Opportunities;
+export default AlumniDirectory;
