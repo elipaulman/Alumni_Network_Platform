@@ -5,12 +5,12 @@ import indexRouter from './routes/index.js';
 import dbTestRouter from './routes/dbTest.js';
 import dbRouter from './routes/db.js';
 import * as dotenv from 'dotenv';
-import mongoose, { connect, Model, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 dotenv.config()
 
 const app = express();
 app.use(cors());
-app.use(morgan());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use('/', indexRouter);
 app.use('/db', dbRouter);

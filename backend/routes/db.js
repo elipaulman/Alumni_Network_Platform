@@ -1,103 +1,69 @@
 import express from 'express';
-import Opportunity from '../models/opportunity.js';
-import multer from 'multer';
-import alumniRoutes from './alumniRoutes.js';
-import User from '../models/user.js';
 import Post from '../models/post.js';
+import Opportunity from '../models/opportunity.js';
+import alumniRoutes from './alumniRoutes.js';
 
 
 const router = express.Router();
 
-// Create a new user
-router.post('/users', async (req, res) => {
+// Add a comment to a post
+router.post('/posts/:postId/comments', async (req, res) => {
   try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    if (error.code === 11000) { // Duplicate email error
-      return res.status(400).json({ error: 'Email already exists' });
-    }
-    res.status(500).json({ error: 'Error creating user' });
-  }
-});
+    const { postId } = req.params;
+    const { user, content } = req.body;
 
-// Get all users
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.find().sort({ createdAt: -1 });
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching users' });
-  }
-});
-
-// Get a specific user by email
-router.get('/users/:email', async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.params.email });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
     }
-    res.json(user);
+
+    post.comments.push({ user, content });
+    await post.save();
+
+    res.status(201).json(post);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching user' });
+    res.status(500).json({ message: 'Error adding comment', error: error.message });
   }
 });
 
 // Create a new post
 router.post('/posts', async (req, res) => {
   try {
-    // Verify user exists first
-    const user = await User.findOne({ email: req.body.userEmail });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+    const { userEmail, text, image, tags, category } = req.body;
+
+    // Validate required fields
+    if (!userEmail || !text || !image || !category) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields: userEmail, text, image, and category'
+      });
     }
-    
+
     const post = await Post.create(req.body);
-    res.status(201).json(post);
+
+    return res.status(201).json({
+      success: true,
+      message: 'Post created successfully',
+      data: post
+    });
+
   } catch (error) {
-    res.status(500).json({ error: 'Error creating post' });
+    console.error('Error creating post:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error creating post',
+      error: error.message
+    });
   }
 });
 
 // Get all posts
 router.get('/posts', async (req, res) => {
   try {
-    const posts = await Post.find().sort({ createdAt: -1 });
-    res.json(posts);
+    const posts = await Post.find({});
+    res.status(200).json(posts);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching posts' });
-  }
-});
-
-// Get all posts from a specific user
-router.get('/posts/user/:email', async (req, res) => {
-  try {
-    const posts = await Post.find({ userEmail: req.params.email }).sort({ createdAt: -1 });
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching user posts' });
-  }
-});
-
-// Add a comment to a post
-router.post('/posts/:postId/comments', async (req, res) => {
-  const { postId } = req.params;
-  const { user, content } = req.body;
-
-  try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    const newComment = { user, content };
-    post.comments.push(newComment);
-    await post.save();
-
-    res.status(201).json(post);
-  } catch (error) {
-    res.status(500).json({ message: 'Error adding comment', error });
+    res.status(500).json({ message: "Error fetching posts", error: error.message });
   }
 });
 
