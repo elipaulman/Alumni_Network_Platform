@@ -1,25 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import React from "react";
+import { Link } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { useLocation } from "react-router-dom";
 
-const pages = ['Main', 'About', 'Directory', 'Events', 'Feed', 'Opportunities', 'Resources'];
-const authPages = ['Signup', 'Login'];
-const settings = ['Profile'];
+const pages = [
+  "Main",
+  "About",
+  "Directory",
+  "Events",
+  "Feed",
+  "Opportunities",
+  "Resources",
+];
+const authPages = ["Signup", "Login"];
+const settings = ["Profile"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const email = searchParams.get("email");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,7 +49,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#00BDF2' }}>
+    <AppBar position="static" sx={{ backgroundColor: "#00BDF2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -46,19 +58,19 @@ function Navbar() {
             component="div"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             LMCC
           </Typography>
 
           {/* Mobile Menu Icon */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -73,24 +85,29 @@ function Navbar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {[...pages, ...authPages].map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    <Link to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link
+                      to={`/${page.toLowerCase()}${
+                        email ? `?email=${email}` : ""
+                      }`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
                       {page}
                     </Link>
                   </Typography>
@@ -100,16 +117,19 @@ function Navbar() {
           </Box>
 
           {/* Desktop Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 component={Link}
-                to={page === 'Main' ? '/' : `/${page.toLowerCase()}`}
+                // to={page === "Main" ? `/${email ? `?email=${email}` : ""}` : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Link to={page === 'Main' ? '/' : `/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link
+                  to={page === "Main" ? `/${email ? `?email=${email}` : ""}` : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   {page}
                 </Link>
               </Button>
@@ -117,16 +137,19 @@ function Navbar() {
           </Box>
 
           {/* Auth Buttons (shifted to the right) */}
-          <Box sx={{ ml: 'auto', display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ ml: "auto", display: { xs: "none", md: "flex" } }}>
             {authPages.map((page) => (
               <Button
                 key={page}
                 component={Link}
                 to={`/${page.toLowerCase()}`}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Link to={`/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Link
+                  to={`/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   {page}
                 </Link>
               </Button>
@@ -141,26 +164,29 @@ function Navbar() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  {setting === 'Profile' ? (
+                  {setting === "Profile" ? (
                     <Typography textAlign="center">
-                      <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link
+                        to={`/profile${email ? `?email=${email}` : ""}`}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
                         {setting}
                       </Link>
                     </Typography>

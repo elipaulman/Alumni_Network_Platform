@@ -16,9 +16,8 @@ const Feed = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [userNames, setUserNames] = useState({});
 
-  // Update later to get current user from auth context
-  const currentUser = "User Name";
-  const HARDCODED_USER_EMAIL = "user@gmail.com";
+  const urlParams = new URLSearchParams(window.location.search);
+  const userEmail = urlParams.get('email');
 
   const categories = [
     "Sculpture",
@@ -28,6 +27,25 @@ const Feed = () => {
     "Mixed Media",
     "Other",
   ];
+
+  const getRelativeTime = (createdAt) => {
+    const now = new Date();
+    const created = new Date(createdAt);
+    const diffInSeconds = Math.floor((now - created) / 1000);
+
+    if (diffInSeconds < 60) {
+      return 'just now';
+    } else if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    }
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -73,9 +91,14 @@ const Feed = () => {
     )
       return;
 
+    if (!userEmail) {
+      alert("You are not logged in. Please log in to create posts.");
+      return;
+    }
+
     try {
       const postData = {
-        userEmail: HARDCODED_USER_EMAIL,
+        userEmail: userEmail,
         text: newPost.content,
         image: newPost.image,
         tags: newPost.tags.split(",").map((tag) => tag.trim()),
@@ -101,9 +124,14 @@ const Feed = () => {
   const handleCommentSubmit = async (postId) => {
     if (newComment.trim() === "") return;
 
+    if (!userEmail) {
+      alert("You are not logged in. Please log in to comment.");
+      return;
+    }
+
     try {
       const commentData = {
-        user: currentUser,
+        user: userNames[userEmail] || userEmail,
         content: newComment
       };
 
@@ -136,6 +164,11 @@ const Feed = () => {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800">Your Feed</h1>
+          {!userEmail && (
+            <div className="text-amber-600 font-medium">
+              You are not logged in. Some features will be limited.
+            </div>
+          )}
           <button
             onClick={() => setIsPostFormVisible(!isPostFormVisible)}
             className="flex items-center px-6 py-3 bg-[#00BDF2] text-white rounded-full shadow-lg hover:bg-[#00a6cf] focus:outline-none focus:ring-2 focus:ring-[#00BDF2] transition duration-200 ease-in-out"
@@ -257,7 +290,9 @@ const Feed = () => {
                 <h2 className="text-lg font-semibold text-gray-800">
                   {userNames[post.userEmail] || post.userEmail}
                 </h2>
-                <p className="text-sm text-gray-500">Posted 2 hours ago</p>
+                <p className="text-sm text-gray-500">
+                  {getRelativeTime(post.createdAt)}
+                </p>
               </div>
             </div>
             <img src={post.image} alt="Post" className="w-full h-auto rounded-t-lg" />
