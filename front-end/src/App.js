@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import CenteredTitle from './components/CenteredTitle';
@@ -9,11 +9,13 @@ import Directory from './pages/Directory';
 import Events from './pages/Events';
 import Feed from './pages/Feed';
 import Opportunities from './pages/Opportunities';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 
 function App() {
   return (
-    <Router>
+
       <div className="min-h-screen flex flex-col bg-gray-100">
         <Navbar />
         <div className="flex-1">
@@ -25,11 +27,14 @@ function App() {
             <Route path="/feed" element={<Feed />} />
             <Route path="/opportunities" element={<Opportunities />} />
             <Route path="/main" element={<Main />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+
 
           </Routes>
         </div>
       </div>
-    </Router>
+    
    
   );
 }
