@@ -14,7 +14,7 @@ const events = [
   { date: '2023-11-15', title: 'Digital Art Showcase', description: 'A showcase of local digital artists.', imageSrc: artistPic },
   { date: '2023-11-20', title: 'Art History Lecture', description: 'Lecture on the influence of Renaissance art on modern culture.', imageSrc: GranteePic },
   { date: '2023-11-25', title: 'Figure Drawing Class', description: 'A class focused on human figure drawing techniques.', imageSrc: TeachMe },
-  { date: '2023-11-30', title: 'Gallery Night', description: 'A night to explore local galleries and meet artists.', imageSrc: Augmented },
+  { date: '2023-11-30', title: 'I Love NY: Augmented Reality Edition', description: 'I Love NY: Augmented Reality Edition is a free 2-day class that will explore the world of 3D design, augmented reality, and animation. Through a series of interactive prompts, attendees will learn to transform their physical surroundings into augmented reality artworks using accessible modeling software. By the end of the workshop, participants will leave with a personalized 3D artwork, ready to use in future projects. Attendees will also acquire knowledge of how to effectively utilize this technology in various applications, opening up new avenues for creative expression and innovation. Led by transdisciplinary artist Sacha Alexandra, this workshop will explore love for New York City and built environments via animation and machine play. This workshop is most suitable for those ages 18 and up but we welcome anyone from 12yrs old and above, attendees who are under 18 must be accompanied by an adult. Space is very limited, sign up is required.', imageSrc: Augmented },
 ];
 
 const EventsPage = () => {
