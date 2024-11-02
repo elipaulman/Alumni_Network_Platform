@@ -1,72 +1,99 @@
 import express from 'express';
 import Opportunity from '../models/opportunity.js';
-import multer from 'multer';
 const router = express.Router();
 
-const upload = multer();
-
 // POST /api/posts
-router.post('/post', upload.single('image'), async (req, res) => {
+// Create a new user
+router.post('/users', async (req, res) => {
   try {
-    const { userId, text } = req.body;
-    
-    const postData = {
-      user: userId,
-      text: text,
-    };
+    const { firstName, lastName, email, location } = req.body;
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      location
+    });
+    await user.save();
+    res.status(201).json(user);
+  } catch (error) {
+    if (error.code === 11000) { // Duplicate email error
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Error creating user' });
+  }
+});
 
-    // If an image was uploaded, add it to the post data
-    if (req.file) {
-      postData.image = {
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-        name: req.file.originalname
-      };
+// Get all users
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users' });
+  }
+});
+
+// Get a specific user by email
+router.get('/users/:email', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user' });
+  }
+});
+
+// Post Routes
+
+// Create a new post
+router.post('/posts', async (req, res) => {
+  try {
+    const { userEmail, text, image, tags, category } = req.body;
+    
+    // Verify user exists
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
 
-    // Create the new post
-    const newPost = await Post.create(postData);
-
-    // Add the post reference to the user's posts array
-    await User.findByIdAndUpdate(
-      userId,
-      { $push: { posts: newPost._id } }
-    );
-
-    // Fetch the complete post with user details
-    const populatedPost = await Post.findById(newPost._id).populate('user', 'firstName lastName');
-
-    res.status(201).json(populatedPost);
-  } catch (error) {
-    console.error('Error creating post:', error);
-    res.status(500).json({ message: 'Error creating post', error: error.message });
-  }
-});
-
-router.get('/user/:userId', async (req, res) => {
-  try {
-    const { userId } = req.params;
-    
-    // Find all posts by user ID, sorted by creation date (newest first)
-    const posts = await Post.find({ user: userId })
-      .populate('user', 'firstName lastName') // Get user details
-      .sort({ createdAt: -1 });
-    
-    // Convert image buffers to base64 strings for transmission
-    const postsWithImages = posts.map(post => {
-      const postObject = post.toObject();
-      if (postObject.image && postObject.image.data) {
-        postObject.image.data = postObject.image.data.toString('base64');
-      }
-      return postObject;
+    const post = new Post({
+      userEmail,
+      text,
+      image,
+      tags,
+      category
     });
-
-    res.json(postsWithImages);
+    await post.save();
+    res.status(201).json(post);
   } catch (error) {
-    console.error('Error fetching user posts:', error);
-    res.status(500).json({ message: 'Error fetching posts', error: error.message });
+    res.status(500).json({ error: 'Error creating post' });
   }
 });
+
+// Get all posts
+router.get('/posts', async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching posts' });
+  }
+});
+
+// Get all posts from a specific user
+router.get('/posts/user/:email', async (req, res) => {
+  try {
+    const posts = await Post.find({ userEmail: req.params.email })
+                           .sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user posts' });
+  }
+});
+
 
 router.post('/opportunity', async (req, res) => {
   try {

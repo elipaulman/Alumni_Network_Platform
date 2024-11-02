@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
 const Feed = () => {
   const [posts, setPosts] = useState([
@@ -6,7 +7,7 @@ const Feed = () => {
       id: 1,
       user: "John Doe",
       content: "This is my first post!",
-      image: "https://via.placeholder.com/600x400", // Placeholder image
+      image: "https://via.placeholder.com/600x400",
       tags: ["fun", "firstpost"],
       category: "Watercolor",
       comments: [
@@ -21,7 +22,7 @@ const Feed = () => {
       id: 2,
       user: "Alice Johnson",
       content: "Hello everyone!",
-      image: "https://via.placeholder.com/600x400", // Placeholder image
+      image: "https://via.placeholder.com/600x400",
       tags: ["hello", "everyone"],
       category: "Sculpture",
       comments: [],
@@ -40,7 +41,8 @@ const Feed = () => {
   const [isPostFormVisible, setIsPostFormVisible] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("");
 
-  const currentUser = "Current User"; // Placeholder for the current user
+  const currentUser = "Current User";
+  const HARDCODED_USER_ID = "672568bd438271a8542e28c9";
 
   const categories = [
     "Sculpture",
@@ -56,18 +58,7 @@ const Feed = () => {
     setNewPost((prevPost) => ({ ...prevPost, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewPost((prevPost) => ({ ...prevPost, image: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handlePostSubmit = (e) => {
+  const handlePostSubmit = async (e) => {
     e.preventDefault();
     if (
       newPost.content.trim() === "" ||
@@ -76,19 +67,40 @@ const Feed = () => {
     )
       return;
 
-    const newPostData = {
-      id: posts.length + 1,
-      user: currentUser,
-      content: newPost.content,
-      image: newPost.image,
-      tags: newPost.tags.split(",").map((tag) => tag.trim()),
-      category: newPost.category,
-      comments: [],
-    };
+    try {
+      const postData = {
+        user: HARDCODED_USER_ID,
+        text: newPost.content,
+        image: {
+          url: newPost.image,
+          name: "image" // You might want to extract the filename from the URL or let users input it
+        },
+        tags: newPost.tags.split(",").map((tag) => tag.trim()),
+        category: newPost.category
+      };
 
-    setPosts([newPostData, ...posts]);
-    setNewPost({ content: "", image: "", tags: "", category: "" });
-    setIsPostFormVisible(false);
+      const response = await axios.post('http://localhost:5050/db/posts/', postData);
+
+      if (response.data) {
+        // Add new post to local state
+        const newPostData = {
+          id: posts.length + 1,
+          user: currentUser,
+          content: newPost.content,
+          image: newPost.image,
+          tags: newPost.tags.split(",").map((tag) => tag.trim()),
+          category: newPost.category,
+          comments: [],
+        };
+        
+        setPosts([newPostData, ...posts]);
+        setNewPost({ content: "", image: "", tags: "", category: "" });
+        setIsPostFormVisible(false);
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+      // You might want to add error handling UI here
+    }
   };
 
   const handleCommentChange = (e) => {
@@ -174,24 +186,21 @@ const Feed = () => {
               placeholder="What's on your mind?"
               rows="3"
             />
-            <div className="flex items-center space-x-4">
-              <label className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600">
-                Choose File
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-              </label>
-              {newPost.image && (
-                <img
-                  src={newPost.image}
-                  alt="Preview"
-                  className="w-20 h-20 object-cover rounded"
-                />
-              )}
-            </div>
+            <input
+              type="url"
+              name="image"
+              value={newPost.image}
+              onChange={handlePostChange}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter image URL"
+            />
+            {newPost.image && (
+              <img
+                src={newPost.image}
+                alt="Preview"
+                className="w-20 h-20 object-cover rounded"
+              />
+            )}
             <input
               type="text"
               name="tags"
@@ -237,14 +246,16 @@ const Feed = () => {
             ))}
           </select>
         </div>
+        {/* Rest of the JSX remains the same */}
         {filteredPosts.map((post) => (
+          // ... existing post rendering code
           <div
             key={post.id}
             className="bg-white border border-gray-200 rounded-lg shadow-md"
           >
             <div className="p-4 flex items-center">
               <img
-                src={`https://i.pravatar.cc/150?img=${post.id}`} // Placeholder avatar
+                src={`https://i.pravatar.cc/150?img=${post.id}`}
                 alt="User avatar"
                 className="w-10 h-10 rounded-full mr-4"
               />
