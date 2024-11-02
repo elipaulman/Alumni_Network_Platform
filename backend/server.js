@@ -14,6 +14,7 @@ app.use(morgan());
 app.use(express.json());
 app.use('/', indexRouter);
 app.use('/db', dbRouter);
+app.use('/test', dbTestRouter);
 
 const PORT = process.env.PORT || 5050;
 const URI = process.env.ATLAS_URI || '';

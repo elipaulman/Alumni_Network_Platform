@@ -16,13 +16,8 @@ const userSchema = new Schema({
   },
   location: {
     type: String
-  },
-  posts: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }]
+  }
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
-
 export default User;
