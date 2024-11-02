@@ -13,6 +13,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation } from "react-router-dom";
+import Logo from "../images/Logo.png"; 
+import StockPfp from "../images/stockpfp.png"; 
 
 const pages = [
   "Main",
@@ -52,24 +54,22 @@ function Navbar() {
     <AppBar position="static" sx={{ backgroundColor: "#00BDF2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
+          <Box
+            component={Link}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
               textDecoration: "none",
             }}
           >
-            LMCC
-          </Typography>
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ height: "40px", width: "auto", filter: "brightness(0) invert(1)" }}
+            />
+          </Box>
 
-          {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -116,18 +116,20 @@ function Navbar() {
             </Menu>
           </Box>
 
-          {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 component={Link}
-                // to={page === "Main" ? `/${email ? `?email=${email}` : ""}` : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 <Link
-                  to={page === "Main" ? `/${email ? `?email=${email}` : ""}` : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
+                  to={
+                    page === "Main"
+                      ? `/${email ? `?email=${email}` : ""}`
+                      : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`
+                  }
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   {page}
@@ -136,7 +138,6 @@ function Navbar() {
             ))}
           </Box>
 
-          {/* Auth Buttons (shifted to the right) */}
           <Box sx={{ ml: "auto", display: { xs: "none", md: "flex" } }}>
             {authPages.map((page) => (
               <Button
@@ -156,11 +157,10 @@ function Navbar() {
             ))}
           </Box>
 
-          {/* User Avatar */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User Profile" src={StockPfp} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -204,3 +204,5 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
