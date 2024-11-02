@@ -36,6 +36,24 @@ const resources = [
     description: 'Dos and don\'ts for preparing and submitting work samples.',
     link: 'https://lmcc.net/wp-content/uploads/2014/05/2012-Work-Samples-Selecting_Work_Samples.pdf',
     category: 'Work Samples'
+  },
+  {
+    title: 'Links and Resources',
+    description: 'A collection of links and resources for arts education.',
+    link: 'https://www.dropbox.com/scl/fi/mec0trsbkx0mi6k794etl/Arts-Education-Links-and-Resources_2020-04.pdf?rlkey=1atr5hqu4md9r955wrnnu1q79&e=1&raw=1',
+    category: 'Arts Education'
+  },
+  {
+    title: 'Sample Lesson Plan 1 - Grade 3',
+    description: 'Sample art education lesson plan for third grade students.',
+    link: 'https://www.dropbox.com/scl/fi/ge2wlspew2bj8vpb5cuvc/Arts-Education-Sample-Lesson-Plan-1-Grade-3_2020-04.pdf?rlkey=mn8cjjej8pcu0r6r3uth6zaoe&e=1&raw=1',
+    category: 'Arts Education'
+  },
+  {
+    title: 'Sample Reflection Sheet',
+    description: 'Sample art education reflection sheet for students.',
+    link: 'https://www.dropbox.com/scl/fi/9laneiz3nnpb8hz5drlod/Arts-Education-Sample-Reflection-Sheet_2020-04.pdf?rlkey=sqotovrn8vi0hwnj6aplvu2g4&e=1&raw=1',
+    category: 'Arts Education'
   }
 ];
 
@@ -107,7 +125,7 @@ const Resources = () => {
           <iframe
             src={selectedResource.link}
             width="100%"
-            height="600px"
+            height="1000px"
             title={selectedResource.title}
             className="border border-gray-300 rounded"
           />
