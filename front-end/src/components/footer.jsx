@@ -21,7 +21,7 @@ const Footer = () => {
             <SlSocialLinkedin className="w-6 h-6" />
         </a>
       </div>
-      <p>&copy; 2024 Lower Manhattan Cultural Council, LMCC. All rights reserved.</p>
+      <p>&copy; 2024 Lower Manhattan Cultural Council, LMCC. All rights reserved..</p>
     </footer>
   );
 };
