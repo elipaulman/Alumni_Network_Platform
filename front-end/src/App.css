@@ -56,14 +56,22 @@
   color: #555;
 }
 
+.about__image {
+  margin-bottom: 30px;
+}
+
 .about__list {
   list-style-type: none;
   padding: 0;
+  text-align: left;
 }
 
 .about__items {
   margin-bottom: 15px;
+  font-size: 1em;
+  color: #444;
 }
+
 
 .about__buttons {
   text-align: center;
@@ -82,7 +90,6 @@
 .button:hover {
   background-color: #0056b3;
 }
-
 
 @keyframes App-logo-spin {
   from {
