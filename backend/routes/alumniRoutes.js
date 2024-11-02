@@ -1,12 +1,13 @@
 import express from 'express';
 import User from '../models/user.js';
+import Alumni from '../models/alumni.js';
 
 const router = express.Router();
 
 // GET /db/alumni - Get all alumni
 router.get('/', async (req, res) => {
   try {
-    const alumni = await User.find({});
+    const alumni = await Alumni.find({});
     res.status(200).json(alumni);
   } catch (error) {
     console.error('Error fetching alumni:', error);
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST /db/alumni - Create a new alumni entry
-router.post('/', async (req, res) => {
+router.post('/a', async (req, res) => {
   try {
     const { firstName, lastName, description, location, category, artCategory } = req.body;
 
@@ -26,7 +27,7 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const alumni = await User.create(req.body);
+    const alumni = await Alumni.create(req.body);
 
     res.status(201).json({
       success: true,
