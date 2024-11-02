@@ -1,25 +1,40 @@
-import mongoose, { Schema } from 'mongoose';
+// backend/models/post.js
 
-const postSchema = new Schema({
-  userEmail: {  // Changed from user to userEmail
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
+
+const commentSchema = new Schema({
+  user: {
     type: String,
     required: true,
-    trim: true
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+}, { timestamps: true });
+
+const postSchema = new Schema({
+  userEmail: {
+    type: String,
+    required: true,
+    trim: true,
   },
   text: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   image: String,
   tags: [{
     type: String,
-    trim: true
+    trim: true,
   }],
   category: {
     type: String,
-    trim: true
-  }
+    trim: true,
+  },
+  comments: [commentSchema],
 }, { timestamps: true });
 
 const Post = mongoose.model('Post', postSchema);
