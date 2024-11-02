@@ -11,8 +11,8 @@ import Feed from './pages/Feed';
 import Opportunities from './pages/Opportunities';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-
 import Profile from './pages/Profile'; // Import Profile component
+import Resources from './pages/Resources';
 
 function App() {
   return (
@@ -31,7 +31,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-
+            <Route path="/resources" element={<Resources />} />
           </Routes>
         </div>
       </div>
