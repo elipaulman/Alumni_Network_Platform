@@ -12,6 +12,7 @@ import Opportunities from './pages/Opportunities';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
+import Profile from './pages/Profile'; // Import Profile component
 
 function App() {
   return (
@@ -29,13 +30,12 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/profile" element={<Profile />} />
 
           </Routes>
         </div>
       </div>
     
-   
   );
 }
 
