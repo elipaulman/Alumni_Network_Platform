@@ -130,7 +130,9 @@ const Login = () => {
             const res = await axios.post("http://localhost:5050/db/login", user);
             if (res.data) {
                 // Redirect to home page after successful login
-                window.location.replace("/");
+                const encodedEmail = encodeURIComponent(email.current.value);
+                // Redirect to home page with email as URL parameter
+                window.location.replace(`/?email=${encodedEmail}`);
             }
         } catch (err) {
             console.error("Login failed:", err.response ? err.response.data : err.message);
