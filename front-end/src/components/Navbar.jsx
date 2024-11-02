@@ -12,10 +12,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['About', 'Directory', 'Events', 'Feed', 'Listings'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Main','About', 'Directory', 'Events', 'Feed', 'Opportunities'];
+const settings = ['Profile',];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -37,7 +36,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#00BDF2' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -73,7 +72,7 @@ function Navbar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'left',
               }}
               keepMounted
@@ -83,7 +82,9 @@ function Navbar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -107,7 +108,9 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                <Link to={`/${page.toLowerCase()}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {page}
+                </Link>
               </Button>
             ))}
           </Box>
@@ -137,7 +140,15 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  {setting === 'Profile' ? (
+                    <Typography textAlign="center">
+                      <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {setting}
+                      </Link>
+                    </Typography>
+                  ) : (
+                    <Typography textAlign="center">{setting}</Typography>
+                  )}
                 </MenuItem>
               ))}
             </Menu>
@@ -149,4 +160,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
