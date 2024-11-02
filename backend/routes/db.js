@@ -5,6 +5,7 @@ import alumniRoutes from './alumniRoutes.js'
 import User from '../models/user.js';
 import Post from '../models/post.js';
 
+
 const router = express.Router();
 
 // // Create a new user
@@ -134,4 +135,36 @@ router.get('/opportunity', async (req, res) => {
 
 router.use('/alumni', alumniRoutes);
 
+
+///auth
+router.post('/signup', async (req, res) => {
+  try {
+    const { firstName, lastName, email, password, interests, location } = req.body;
+    console.error(req.body)
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    // Create new user
+    const newUser = new User({
+      firstName: firstName, lastName: lastName, email: email, password: password, interests: interests, location: location
+      // lastName,
+      // email,
+      // password,
+      // interests,
+      // location,
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully', user: newUser });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'Error registering user' });
+  }
+});
+
 export default router;
+
+
