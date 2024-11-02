@@ -258,9 +258,7 @@ const Feed = () => {
             <img src={post.image} alt="Post" className="w-full h-auto" />
             <div className="p-4">
               <p className="text-gray-800 mb-1">{post.content}</p>
-              <p className="text-sm text-gray-500 mb-1">
-                {post.category}
-              </p>
+              <p className="text-sm text-gray-500 mb-1">{post.category}</p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {post.tags.map((tag, index) => (
                   <span
@@ -293,7 +291,6 @@ const Feed = () => {
                     {expandedPostId === post.id
                       ? "Show less"
                       : `Show more (${post.comments.length - 3} more)`}
-                 
                   </button>
                 )}
               </div>
