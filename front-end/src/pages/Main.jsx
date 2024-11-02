@@ -61,7 +61,7 @@ function Main() {
             gutterBottom
             className="text-4xl md:text-6xl font-bold text-white drop-shadow-md"
           >
-            LMCC Alumni Network
+            Lower Manhattan Cultural Council Alumni Network
           </Typography>
           <Typography
             variant="h6"
