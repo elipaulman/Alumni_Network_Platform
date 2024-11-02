@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios for HTTP requests
 import Card from '../components/Card'; // Import the Card component
 
 const Opportunities = () => {
@@ -10,10 +11,13 @@ const Opportunities = () => {
 
   useEffect(() => {
     const fetchOpportunities = async () => {
-      const jsonString = '[{"id":1,"userID":1,"name":"Private Art Commission","description":"Create a custom piece of art for a private collector. Open to all styles.","category":"Commission","location":"New York, NY","artCategory":"Watercolor"},{"id":2,"userID":2,"name":"Corporate Art Commission","description":"Design and create artwork for a corporate office. Open to experienced artists.","category":"Commission","location":"Los Angeles, CA","artCategory":"Sculpture"},{"id":3,"userID":3,"name":"Public Art Commission","description":"Develop a public art piece for a new community center. Open to proposals.","category":"Commission","location":"Chicago, IL","artCategory":"Mural"},{"id":4,"userID":4,"name":"Artist Residency Program","description":"Apply for a 3-month artist residency program. Studio space and stipend provided.","category":"Residency","location":"San Francisco, CA","artCategory":"Mixed Media"},{"id":5,"userID":5,"name":"Art Competition","description":"Participate in the annual art competition. Cash prizes for winners.","category":"Competition","location":"Miami, FL","artCategory":"Digital Art"},{"id":6,"userID":6,"name":"Gallery Internship","description":"Intern at a contemporary art gallery. Gain hands-on experience in gallery operations.","category":"Internship","location":"Seattle, WA","artCategory":"Photography"},{"id":7,"userID":7,"name":"Art Fair Participation","description":"Exhibit your work at the upcoming art fair. Open to all artists.","category":"Fair","location":"Austin, TX","artCategory":"Painting"},{"id":8,"userID":8,"name":"Art Grant Application","description":"Apply for an art grant to fund your next project. Open to all disciplines.","category":"Grant","location":"Boston, MA","artCategory":"Installation"},{"id":9,"userID":9,"name":"Art Auction","description":"Submit your artwork for the charity art auction. Proceeds go to local charities.","category":"Auction","location":"Philadelphia, PA","artCategory":"Oil Painting"},{"id":10,"userID":10,"name":"Art Collaboration Project","description":"Collaborate with other artists on a large-scale mural project. Open to all skill levels.","category":"Collaboration","location":"Portland, OR","artCategory":"Chalk Art"}]';
-      const opportunities = JSON.parse(jsonString);
-      setOpportunities(opportunities);
-      setFilteredOpportunities(opportunities); // Set filtered opportunities immediately after fetching
+      try {
+        const response = await axios.get('http://localhost:5050/db/opportunity/');
+        setOpportunities(response.data);
+        setFilteredOpportunities(response.data); // Set filtered opportunities immediately after fetching
+      } catch (error) {
+        console.error('Error fetching opportunities:', error);
+      }
     };
 
     fetchOpportunities();
@@ -77,17 +81,17 @@ const Opportunities = () => {
             value={locationFilter}
             onChange={handleLocationFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter location"
+            placeholder="City, State"
           />
         </div>
         <div>
-          <label className="block mb-2 text-gray-700 font-semibold">Filter by Category:</label>
+          <label className="block mb-2 text-gray-700 font-semibold">Filter by Opportunity Type:</label>
           <input
             type="text"
             value={categoryFilter}
             onChange={handleCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter category"
+            placeholder="Commission, Residency, etc"
           />
         </div>
         <div>
@@ -97,13 +101,13 @@ const Opportunities = () => {
             value={artCategoryFilter}
             onChange={handleArtCategoryFilterChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter art category"
+            placeholder="Painting, Sculpture, etc"
           />
         </div>
       </div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredOpportunities.map(opportunity => (
-          <Card key={opportunity.id} data={opportunity} />
+          <Card key={opportunity._id} data={opportunity} />
         ))}
       </ul>
     </div>
