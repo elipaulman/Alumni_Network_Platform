@@ -22,7 +22,7 @@ function App() {
         <div className="flex-1">
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/network" element={<CenteredTitle text="LMCC Alumni Network" />} />
+            {/* <Route path="/network" element={<CenteredTitle text="LMCC Alumni Network" />} /> */}
             <Route path="/about" element={<About />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/events" element={<Events />} />
