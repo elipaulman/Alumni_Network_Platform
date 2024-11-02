@@ -1,69 +1,102 @@
 import express from 'express';
-import Post from '../models/post.js';
 import Opportunity from '../models/opportunity.js';
+import multer from 'multer';
 import alumniRoutes from './alumniRoutes.js';
-
+import User from '../models/user.js';
+import Post from '../models/post.js';
 
 const router = express.Router();
 
-// Add a comment to a post
-router.post('/posts/:postId/comments', async (req, res) => {
+// Create a new user
+router.post('/users', async (req, res) => {
   try {
-    const { postId } = req.params;
-    const { user, content } = req.body;
-
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ message: 'Post not found' });
-    }
-
-    post.comments.push({ user, content });
-    await post.save();
-
-    res.status(201).json(post);
+    const user = await User.create(req.body);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Error adding comment', error: error.message });
+    if (error.code === 11000) { // Duplicate email error
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Error creating user' });
+  }
+});
+
+// Get all users
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find().sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users' });
+  }
+});
+
+// Get a specific user by email
+router.get('/users/:email', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user' });
   }
 });
 
 // Create a new post
 router.post('/posts', async (req, res) => {
   try {
-    const { userEmail, text, image, tags, category } = req.body;
-
-    // Validate required fields
-    if (!userEmail || !text || !image || !category) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide all required fields: userEmail, text, image, and category'
-      });
+    // Verify user exists first
+    const user = await User.findOne({ email: req.body.userEmail });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-
+    
     const post = await Post.create(req.body);
-
-    return res.status(201).json({
-      success: true,
-      message: 'Post created successfully',
-      data: post
-    });
-
+    res.status(201).json(post);
   } catch (error) {
-    console.error('Error creating post:', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Error creating post',
-      error: error.message
-    });
+    res.status(500).json({ error: 'Error creating post' });
   }
 });
 
 // Get all posts
 router.get('/posts', async (req, res) => {
   try {
-    const posts = await Post.find({});
-    res.status(200).json(posts);
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.json(posts);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching posts", error: error.message });
+    res.status(500).json({ error: 'Error fetching posts' });
+  }
+});
+
+// Get all posts from a specific user
+router.get('/posts/user/:email', async (req, res) => {
+  try {
+    const posts = await Post.find({ userEmail: req.params.email }).sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching user posts' });
+  }
+});
+
+// Add a comment to a post
+router.post('/posts/:postId/comments', async (req, res) => {
+  const { postId } = req.params;
+  const { user, content } = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const newComment = { user, content };
+    post.comments.push(newComment);
+    await post.save();
+
+    res.status(201).json(post);
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding comment', error });
   }
 });
 
@@ -110,8 +143,7 @@ router.get('/opportunity', async (req, res) => {
 
 router.use('/alumni', alumniRoutes);
 
-
-///auth
+// User signup
 router.post('/signup', async (req, res) => {
   try {
     const { firstName, lastName, email, password, interests, location } = req.body;
@@ -124,12 +156,7 @@ router.post('/signup', async (req, res) => {
 
     // Create new user
     const newUser = new User({
-      firstName: firstName, lastName: lastName, email: email, password: password, interests: interests, location: location
-      // lastName,
-      // email,
-      // password,
-      // interests,
-      // location,
+      firstName, lastName, email, password, interests, location
     });
 
     await newUser.save();
@@ -141,5 +168,3 @@ router.post('/signup', async (req, res) => {
 });
 
 export default router;
-
-
