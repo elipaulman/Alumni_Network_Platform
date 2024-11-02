@@ -125,7 +125,7 @@ const Resources = () => {
           <iframe
             src={selectedResource.link}
             width="100%"
-            height="1000px"
+            height="800px"
             title={selectedResource.title}
             className="border border-gray-300 rounded"
           />
