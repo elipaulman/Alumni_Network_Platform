@@ -17,9 +17,9 @@ router.get('/', async (req, res) => {
 // POST /db/alumni - Create a new alumni entry
 router.post('/', async (req, res) => {
   try {
-    const { firstName, lastName, description, location_alum, category, artCategory } = req.body;
+    const { firstName, lastName, description, location, category, artCategory } = req.body;
 
-    if (!firstName && !lastName && !location_alum && !category) {
+    if (!firstName && !lastName && !location && !category) {
       return res.status(400).json({
         success: false,
         message: 'Please provide required fields: name, location, and category'

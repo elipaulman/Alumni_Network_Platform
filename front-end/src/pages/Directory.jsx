@@ -41,7 +41,7 @@ const AlumniDirectory = () => {
 
     if (locationFilter) {
       filtered = filtered.filter(alumni =>
-        alumni.location_alum.toLowerCase().includes(locationFilter.toLowerCase())
+        alumni.location.toLowerCase().includes(locationFilter.toLowerCase())
       );
     }
 

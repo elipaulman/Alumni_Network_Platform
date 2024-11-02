@@ -29,7 +29,7 @@ const Card = ({ data }) => {
         {data.artCategory && <p className="text-gray-500 mb-2">{data.artCategory}</p>}
         {data.description && <p className="text-gray-600 mb-2">{data.description}</p>}
         {data.category && <p className="text-gray-500 mb-2">{data.category}</p>}
-        <p className="text-gray-400">{data.location_alum}</p>
+        <p className="text-gray-400">{data.location}</p>
       </div>
     </li>
   );
