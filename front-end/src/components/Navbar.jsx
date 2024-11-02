@@ -13,8 +13,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Main','About', 'Directory', 'Events', 'Feed', 'Opportunities'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Main','About', 'Directory', 'Events', 'Feed', 'Opportunities', 'Resources'];
+const settings = ['Profile',];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

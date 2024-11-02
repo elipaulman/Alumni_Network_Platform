@@ -9,7 +9,6 @@ import {
   Tabs,
   Tab,
   Chip,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -21,6 +20,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
+import ProfilePicture from '../images/stockpfp.png';
 
 const Banner = styled(Box)(({ theme }) => ({
   backgroundColor: '#00BDF2',
@@ -59,7 +59,7 @@ const Profile = () => {
             <Grid item xs={12} md={4} textAlign="center">
               <Avatar
                 alt="Alumni Photo"
-                src="https://via.placeholder.com/150"
+                src={ProfilePicture}
                 sx={{ width: 128, height: 128, margin: 'auto' }}
               />
               <Typography variant="h6" component="h2" sx={{ mt: 2 }}>

@@ -1,5 +1,6 @@
 import express from 'express';
 import Test from '../models/test.js';
+import User from '../models/user.js';
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
 // create new test
 router.post('/', async (req, res) => {
   try {
-    const todo = await Test.create(req.body);
+    const todo = await User.create(req.body);
     res.status(200).json(todo);
   } catch (error) {
     console.log(error.message);
