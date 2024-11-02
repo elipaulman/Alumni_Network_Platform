@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import axios to make HTTP requests
-import Card from '../components/Card'; // Import the Card component
+import DirectoryCard from '../components/DirectoryCard'; // Import the Card component
 
 const AlumniDirectory = () => {
   const [directory, setDirectory] = useState([]);
@@ -109,7 +109,7 @@ const AlumniDirectory = () => {
       </div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredDirectory.map(alumni => (
-          <Card key={alumni._id} data={alumni} />
+          <DirectoryCard key={alumni._id} data={alumni} />
         ))}
       </ul>
     </div>
