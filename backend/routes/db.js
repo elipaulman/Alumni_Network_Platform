@@ -1,33 +1,22 @@
 import express from 'express';
 import Opportunity from '../models/opportunity.js';
 import multer from 'multer';
-import alumniRoutes from './alumniRoutes.js'
+import alumniRoutes from './alumniRoutes.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
 
 const router = express.Router();
 
-// // Create a new user
-// router.post('/users', async (req, res) => {
-//   try {
-//     const user = await User.create(req.body);
-//     res.status(201).json(user);
-//   } catch (error) {
-//     if (error.code === 11000) { // Duplicate email error
-//       return res.status(400).json({ error: 'Email already exists' });
-//     }
-//     res.status(500).json({ error: 'Error creating user' });
-//   }
-// });
-
-// create new test
+// Create a new user
 router.post('/users', async (req, res) => {
   try {
-    const todo = await User.create(req.body);
-    res.status(200).json(todo);
+    const user = await User.create(req.body);
+    res.status(201).json(user);
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({message: error.message});
+    if (error.code === 11000) { // Duplicate email error
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    res.status(500).json({ error: 'Error creating user' });
   }
 });
 
@@ -44,7 +33,6 @@ router.get('/users', async (req, res) => {
 // Get a specific user by email
 router.get('/users/:email', async (req, res) => {
   try {
-    console.log(req.params.email)
     const user = await User.findOne({ email: req.params.email });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -84,15 +72,35 @@ router.get('/posts', async (req, res) => {
 // Get all posts from a specific user
 router.get('/posts/user/:email', async (req, res) => {
   try {
-    const posts = await Post.find({ userEmail: req.params.email })
-                           .sort({ createdAt: -1 });
+    const posts = await Post.find({ userEmail: req.params.email }).sort({ createdAt: -1 });
     res.json(posts);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching user posts' });
   }
 });
 
+// Add a comment to a post
+router.post('/posts/:postId/comments', async (req, res) => {
+  const { postId } = req.params;
+  const { user, content } = req.body;
 
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const newComment = { user, content };
+    post.comments.push(newComment);
+    await post.save();
+
+    res.status(201).json(post);
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding comment', error });
+  }
+});
+
+// Create a new opportunity
 router.post('/opportunity', async (req, res) => {
   try {
     const { opportunityName, description, location, category, artCategory } = req.body;
@@ -109,7 +117,7 @@ router.post('/opportunity', async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: 'opportunity created successfully',
+      message: 'Opportunity created successfully',
       data: opportunity
     });
 
@@ -123,6 +131,7 @@ router.post('/opportunity', async (req, res) => {
   }
 });
 
+// Get all opportunities
 router.get('/opportunity', async (req, res) => {
   try {
     const opportunities = await Opportunity.find({});
