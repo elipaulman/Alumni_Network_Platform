@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from '../components/Card'; // Import the original Card component
 
 const DirectoryCard = ({ data }) => {
   const [showEmail, setShowEmail] = useState(false);
@@ -7,21 +8,11 @@ const DirectoryCard = ({ data }) => {
 
   return (
     <div 
-      className="relative rounded-lg shadow-md bg-white overflow-hidden cursor-pointer transform transition hover:scale-105"
+      className="relative cursor-pointer transform transition hover:scale-105"
       onClick={() => setShowEmail(true)}
     >
-      {/* Card Content */}
-      <div className="p-4">
-        <img 
-          src="/api/placeholder/100/100"
-          alt={`${data.name || 'Alumni'}'s profile`}
-          className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-        />
-        <h3 className="text-xl font-semibold text-center mb-2">{data.name || 'Unnamed Alumni'}</h3>
-        <p className="text-gray-600 text-center mb-1">{data.category || 'No Category Listed'}</p>
-        <p className="text-gray-500 text-center text-sm">{data.location || 'Location not specified'}</p>
-        <p className="text-gray-500 text-center text-sm">{data.artCategory || 'Art category not specified'}</p>
-      </div>
+      {/* Use the original Card component */}
+      <Card data={data} />
 
       {/* Email Popup Overlay */}
       {showEmail && (
