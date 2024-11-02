@@ -128,22 +128,37 @@ const Opportunities = () => {
       {isFormVisible && (
         <form
           onSubmit={handleFormSubmit}
-          className="mb-8 bg-white p-4 rounded shadow-md"
+          className="mb-8 bg-white p-6 rounded-lg shadow-md space-y-4"
         >
-          <div className="mb-4">
-            <label className="block mb-2 text-gray-700 font-semibold">
-              Opportunity Name:
-            </label>
-            <input
-              type="text"
-              name="opportunityName"
-              value={newOpportunity.opportunityName}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Opportunity Name:
+              </label>
+              <input
+                type="text"
+                name="opportunityName"
+                value={newOpportunity.opportunityName}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Location:
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={newOpportunity.location}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block mb-2 text-gray-700 font-semibold">
               Description:
             </label>
@@ -155,44 +170,33 @@ const Opportunities = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block mb-2 text-gray-700 font-semibold">
-              Location:
-            </label>
-            <input
-              type="text"
-              name="location"
-              value={newOpportunity.location}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2 text-gray-700 font-semibold">
-              Category:
-            </label>
-            <input
-              type="text"
-              name="category"
-              value={newOpportunity.category}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block mb-2 text-gray-700 font-semibold">
-              Art Category:
-            </label>
-            <input
-              type="text"
-              name="artCategory"
-              value={newOpportunity.artCategory}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Category:
+              </label>
+              <input
+                type="text"
+                name="category"
+                value={newOpportunity.category}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2 text-gray-700 font-semibold">
+                Art Category:
+              </label>
+              <input
+                type="text"
+                name="artCategory"
+                value={newOpportunity.artCategory}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
           </div>
           <div className="text-center">
             <button
