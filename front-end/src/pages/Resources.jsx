@@ -1,210 +1,137 @@
 import React, { useState } from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const resources = [
   {
-    title: 'Workspace Residency',
-    description: 'A nine-month studio residency program that focuses on creative practice development for emerging artists working across all disciplines.',
-    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg',
-    link: 'https://lmcc.net/resources/artist-residencies/workspace/',
-    category: 'Residencies'
-  },
-  {
-    title: 'Arts Center Residency',
-    description: 'The Arts Center at Governors Island is home to year-round artist residency programs for artists working in any discipline.',
-    image: 'https://images.pexels.com/photos/3184456/pexels-photo-3184456.jpeg',
-    link: 'https://lmcc.net/resources/artist-residencies/arts-center-residency/',
-    category: 'Residencies'
-  },
-  {
-    title: 'SU-CASA',
-    description: 'SU-CASA is a community arts engagement program that places artists and organizations in residence at senior centers across the five boroughs of New York City.',
-    image: 'https://images.pexels.com/photos/1431122/pexels-photo-1431122.jpeg',
-    link: 'https://lmcc.net/resources/artist-residencies/su-casa/',
-    category: 'Residencies'
-  },
-  {
-    title: 'Extended Life Residency',
-    description: 'The Extended Life Dance Development Residency program extends the lives of ephemeral, essential works of dance, and advances the creative lives of the artists themselves.',
-    image: 'https://images.pexels.com/photos/1126318/pexels-photo-1126318.jpeg',
-    link: 'https://lmcc.net/resources/artist-residencies/extended-life/',
-    category: 'Residencies'
-  },
-  {
-    title: 'Rehearsal Week',
-    description: 'LMCC’s rehearsal program is a core part of our commitment to ensuring artists have free space for creative development and production in New York City.',
-    image: 'https://images.pexels.com/photos/1181353/pexels-photo-1181353.jpeg',
-    link: 'https://lmcc.net/resources/artist-residencies/rehearsal-week/',
-    category: 'Residencies'
-  },
-  {
-    title: 'Creative Engagement',
-    description: 'Provides grants for arts events and programming in any discipline anywhere in the borough of Manhattan.',
-    image: 'https://images.pexels.com/photos/3184456/pexels-photo-3184456.jpeg',
-    link: 'https://lmcc.net/resources/grants/creative-engagement/',
+    title: 'Grant Resources for Individual Artists',
+    description: 'Resources to help individual artists find and apply for grants.',
+    link: 'https://www.dropbox.com/scl/fi/80b9bwsuxepclcd5ekawm/Fundraising_Grant-Resources-for-Individual-Artists_2020-04.pdf?rlkey=rp59gk5y9h8bhruejykbemhde&e=1&raw=1',
     category: 'Grants'
   },
   {
-    title: 'Creative Learning',
-    description: 'Provides grants for community arts education and participatory art-making projects for older adults in any discipline anywhere in the borough of Manhattan.',
-    image: 'https://images.pexels.com/photos/3184458/pexels-photo-3184458.jpeg',
-    link: 'https://lmcc.net/resources/grants/creative-learning/',
+    title: 'Grantwriting Dos and Don\'ts',
+    description: 'Tips and best practices for writing successful grant applications.',
+    link: 'https://www.dropbox.com/scl/fi/gywjsr8qkqid1jl29mkz5/Fundraising_Grantwriting-Dos-and-Donts_Upload_2020-04.pdf?rlkey=ktoouht2gqflawahokfymxbqh&e=1&raw=1',
     category: 'Grants'
-  },
-  {
-    title: 'UMEZ Arts Engagement',
-    description: 'Provides grants for arts presentations and programming in any discipline anywhere in Upper Manhattan.',
-    image: 'https://images.pexels.com/photos/1413421/pexels-photo-1413421.jpeg',
-    link: 'https://lmcc.net/resources/grants/umez-arts-engagement/',
-    category: 'Grants'
-  },
-  {
-    title: 'Fundraising Fundamentals',
-    description: 'Helps artists develop knowledge and skills in raising the resources to support their practice.',
-    image: 'https://images.pexels.com/photos/3184458/pexels-photo-3184458.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/fundraising-fundamentals/',
-    category: 'Professional Development'
-  },
-  {
-    title: 'Grantwriting Dos and Don’ts',
-    description: 'Provides tips and best practices for writing successful grant applications.',
-    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/grantwriting-dos-and-donts/',
-    category: 'Professional Development'
-  },
-  {
-    title: 'Project Budgeting Video',
-    description: 'A video resource on how to budget for your projects effectively.',
-    image: 'https://images.pexels.com/photos/1020875/pexels-photo-1020875.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/project-budgeting-video/',
-    category: 'Professional Development'
   },
   {
     title: 'Grantwriting in Six Steps',
     description: 'A step-by-step guide to writing successful grant applications.',
-    image: 'https://images.pexels.com/photos/1181353/pexels-photo-1181353.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/grantwriting-in-six-steps/',
-    category: 'Professional Development'
+    link: 'https://www.dropbox.com/scl/fi/kpyqzlsl2ff8o1fonelhu/Fundraising_Grantwriting-in-Six-Steps_Upload-2020-04.pdf?dl=0&e=1&rlkey=6bmosz3d9mcvwbayop5dsfnug&e=1&raw=1',
+    category: 'Grants'
   },
   {
     title: 'Selecting Work Samples',
     description: 'Guidelines for selecting the best work samples for your grant applications.',
-    image: 'https://images.pexels.com/photos/1181353/pexels-photo-1181353.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/selecting-work-samples/',
-    category: 'Professional Development'
+    link: 'https://www.dropbox.com/scl/fi/c7dyzz4yv2t73zi7umg26/Work-Samples_Selecting-Work-Samples_2020-04.pdf?rlkey=dh53o0nnyvmfqihrma0phs58l&e=1&raw=1',
+    category: 'Work Samples'
   },
   {
     title: 'Technical Tips for Preparing Work Samples',
     description: 'Technical tips to ensure your work samples are prepared correctly.',
-    image: 'https://images.pexels.com/photos/1181378/pexels-photo-1181378.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/technical-tips-for-preparing-work-samples/',
-    category: 'Professional Development'
+    link: 'https://www.dropbox.com/scl/fi/z91coulkg2l9n7nvkufg8/Work-Samples_Technical-Tips-for-Preparing-Work-Samples_2020-04.pdf?rlkey=59b77tq80zurcvna2utdm3mhc&e=1&raw=1',
+    category: 'Work Samples'
   },
   {
-    title: 'In-Kind Contribution',
-    description: 'Understanding and utilizing in-kind contributions for your projects.',
-    image: 'https://images.pexels.com/photos/3184458/pexels-photo-3184458.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/in-kind-contribution/',
-    category: 'Professional Development'
+    title: 'Work Samples Dos and Don\'ts',
+    description: 'Dos and don\'ts for preparing and submitting work samples.',
+    link: 'https://lmcc.net/wp-content/uploads/2014/05/2012-Work-Samples-Selecting_Work_Samples.pdf',
+    category: 'Work Samples'
   },
   {
-    title: 'Financial Statements',
-    description: 'How to prepare and understand financial statements for your projects.',
-    image: 'https://images.pexels.com/photos/3183186/pexels-photo-3183186.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/financial-statements/',
-    category: 'Professional Development'
+    title: 'Links and Resources',
+    description: 'A collection of links and resources for arts education.',
+    link: 'https://www.dropbox.com/scl/fi/mec0trsbkx0mi6k794etl/Arts-Education-Links-and-Resources_2020-04.pdf?rlkey=1atr5hqu4md9r955wrnnu1q79&e=1&raw=1',
+    category: 'Arts Education'
   },
   {
-    title: 'Fiscal Sponsorship Fact Sheet',
-    description: 'Information on fiscal sponsorship and how it can benefit your projects.',
-    image: 'https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/fiscal-sponsorship-fact-sheet/',
-    category: 'Professional Development'
+    title: 'Sample Lesson Plan 1 - Grade 3',
+    description: 'Sample art education lesson plan for third grade students.',
+    link: 'https://www.dropbox.com/scl/fi/ge2wlspew2bj8vpb5cuvc/Arts-Education-Sample-Lesson-Plan-1-Grade-3_2020-04.pdf?rlkey=mn8cjjej8pcu0r6r3uth6zaoe&e=1&raw=1',
+    category: 'Arts Education'
   },
   {
-    title: 'Project Design Work Sheet',
-    description: 'A worksheet to help you design and plan your projects effectively.',
-    image: 'https://images.pexels.com/photos/3184464/pexels-photo-3184464.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/project-design-work-sheet/',
-    category: 'Professional Development'
-  },
-  {
-    title: 'Work Sample Selection Video',
-    description: 'A video guide on selecting the best work samples for your grant applications.',
-    image: 'https://images.pexels.com/photos/3184456/pexels-photo-3184456.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/work-sample-selection-video/',
-    category: 'Professional Development'
-  },
-  {
-    title: 'Lesson Plan Video',
-    description: 'A video guide on creating effective lesson plans for arts education.',
-    image: 'https://images.pexels.com/photos/3184458/pexels-photo-3184458.jpeg',
-    link: 'https://lmcc.net/resources/professional-development/lesson-plan-video/',
-    category: 'Professional Development'
+    title: 'Sample Reflection Sheet',
+    description: 'Sample art education reflection sheet for students.',
+    link: 'https://www.dropbox.com/scl/fi/9laneiz3nnpb8hz5drlod/Arts-Education-Sample-Reflection-Sheet_2020-04.pdf?rlkey=sqotovrn8vi0hwnj6aplvu2g4&e=1&raw=1',
+    category: 'Arts Education'
   }
 ];
 
-const categories = ['All', 'Residencies', 'Grants', 'Professional Development'];
+const categories = ['Work Samples', 'Grants', 'Arts Education'];
 
 const Resources = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedResource, setSelectedResource] = useState(null);
 
-  const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    setSelectedResource(null); // Reset selected resource when category changes
   };
 
-  const filteredResources = selectedCategory === 'All'
-    ? resources
-    : resources.filter(resource => resource.category === selectedCategory);
+  const handleResourceClick = (resource) => {
+    setSelectedResource(resource);
+  };
+
+  const filteredResources = selectedCategory
+    ? resources.filter(resource => resource.category === selectedCategory)
+    : [];
 
   return (
-    <Container sx={{ py: 8 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center">
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
         Resources For Artists
-      </Typography>
-      <FormControl fullWidth sx={{ mb: 4 }}>
-        <InputLabel>Category</InputLabel>
-        <Select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          label="Category"
-        >
-          {categories.map((category, index) => (
-            <MenuItem key={index} value={category}>
-              {category}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Grid container spacing={4}>
-        {filteredResources.map((resource, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={resource.image}
-                alt={resource.title}
-              />
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {resource.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {resource.description}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                  Category: {resource.category}
-                </Typography>
-              </CardContent>
-              <Button size="small" color="primary" href={resource.link} target="_blank" rel="noopener noreferrer" sx={{ m: 2 }}>
-                Learn More
-              </Button>
-            </Card>
-          </Grid>
+      </h1>
+      <div className="flex justify-center mb-8">
+        {categories.map((category, index) => (
+          <button
+            key={index}
+            className={`mx-2 px-4 py-2 rounded-full shadow-lg transition duration-200 ease-in-out ${
+              selectedCategory === category
+                ? 'bg-blue-500 text-white'
+                : 'bg-white text-blue-500 border border-blue-500'
+            }`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            {category}
+          </button>
         ))}
-      </Grid>
-    </Container>
+      </div>
+      {selectedCategory && (
+        <div>
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
+            {selectedCategory}
+          </h2>
+          <ul className="space-y-4">
+            {filteredResources.map((resource, index) => (
+              <li
+                key={index}
+                className="p-4 bg-white rounded shadow-md hover:bg-gray-100 transition duration-200 ease-in-out cursor-pointer"
+                onClick={() => handleResourceClick(resource)}
+              >
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {resource.title}
+                </h3>
+                <p className="text-gray-600">{resource.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {selectedResource && (
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
+            {selectedResource.title}
+          </h3>
+          <iframe
+            src={selectedResource.link}
+            width="100%"
+            height="800px"
+            title={selectedResource.title}
+            className="border border-gray-300 rounded"
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
