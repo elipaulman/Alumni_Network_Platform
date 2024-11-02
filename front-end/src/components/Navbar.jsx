@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 const pages = ['Main','About', 'Directory', 'Events', 'Feed', 'Opportunities'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile',];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -140,8 +140,15 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                  <Typography textAlign="center">{setting}</Typography>
+                  {setting === 'Profile' ? (
+                    <Typography textAlign="center">
+                      <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {setting}
+                      </Link>
+                    </Typography>
+                  ) : (
+                    <Typography textAlign="center">{setting}</Typography>
+                  )}
                 </MenuItem>
               ))}
             </Menu>
@@ -153,4 +160,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

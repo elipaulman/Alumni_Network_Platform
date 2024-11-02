@@ -12,6 +12,7 @@ import Opportunities from './pages/Opportunities';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
+import Profile from './pages/Profile'; // Import Profile component
 
 function App() {
   return (
@@ -20,22 +21,22 @@ function App() {
         <Navbar />
         <div className="flex-1">
           <Routes>
-            <Route path="/" element={<CenteredTitle text="LMCC Alumni Network" />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/network" element={<CenteredTitle text="LMCC Alumni Network" />} />
             <Route path="/about" element={<About />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/events" element={<Events />} />
             <Route path="/feed" element={<Feed />} />
             <Route path="/opportunities" element={<Opportunities />} />
-            <Route path="/main" element={<Main />} />
+            
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/profile" element={<Profile />} />
 
           </Routes>
         </div>
       </div>
     
-   
   );
 }
 

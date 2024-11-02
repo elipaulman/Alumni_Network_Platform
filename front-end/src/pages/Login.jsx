@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Logo from '../images/Logo.png';
 
 const Login = () => {
     const email = React.useRef();
@@ -31,8 +32,8 @@ const Login = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                     className="mx-auto h-10 w-auto"
-                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                    alt="Your Company"
+                    src={Logo} // Using the imported image
+                    alt="Logo"
                 />
                 <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
                    Login to your account
