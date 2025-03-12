@@ -13,8 +13,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation } from "react-router-dom";
-import Logo from "../images/Logo.png"; 
-import StockPfp from "../images/stockpfp.png"; 
+import Logo from "../images/Logo.png";
+import StockPfp from "../images/stockpfp.png";
 
 const pages = [
   "Main",
@@ -66,7 +66,11 @@ function Navbar() {
             <img
               src={Logo}
               alt="Logo"
-              style={{ height: "40px", width: "auto", filter: "brightness(0) invert(1)" }}
+              style={{
+                height: "40px",
+                width: "auto",
+                filter: "brightness(0) invert(1)",
+              }}
             />
           </Box>
 
@@ -128,7 +132,9 @@ function Navbar() {
                   to={
                     page === "Main"
                       ? `/${email ? `?email=${email}` : ""}`
-                      : `/${page.toLowerCase()}${email ? `?email=${email}` : ""}`
+                      : `/${page.toLowerCase()}${
+                          email ? `?email=${email}` : ""
+                        }`
                   }
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
@@ -204,6 +210,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-
-
