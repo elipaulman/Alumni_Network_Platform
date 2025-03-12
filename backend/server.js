@@ -9,7 +9,9 @@ import mongoose from 'mongoose';
 dotenv.config()
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://your-frontend-domain.onrender.com'
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use('/', indexRouter);
