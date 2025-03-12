@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,32 +12,38 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { useLocation } from "react-router-dom";
 import Logo from "../images/Logo.png";
 import StockPfp from "../images/stockpfp.png";
-
-const pages = [
-  "Main",
-  "About",
-  "Directory",
-  "Events",
-  "Feed",
-  "Opportunities",
-  "Resources",
-];
-const authPages = ["Signup", "Login"];
-const settings = ["Profile"];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const email = searchParams.get("email");
+  const email = searchParams.get("email") || "";
+
+  // Define pages with their paths
+  const pages = [
+    { name: "Main", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Directory", path: "/directory" },
+    { name: "Events", path: "/events" },
+    { name: "Feed", path: "/feed" },
+    { name: "Opportunities", path: "/opportunities" },
+    { name: "Resources", path: "/resources" },
+  ];
+
+  const authPages = [
+    { name: "Signup", path: "/signup" },
+    { name: "Login", path: "/login" },
+  ];
+
+  const settings = [{ name: "Profile", path: "/profile" }];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -50,34 +56,40 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  // Helper function to append email parameter if present
+  const getPathWithEmail = (path) => {
+    return email ? `${path}?email=${email}` : path;
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#00BDF2" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box
-            component={Link}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              textDecoration: "none",
-            }}
-          >
-            <img
-              src={Logo}
-              alt="Logo"
-              style={{
-                height: "40px",
-                width: "auto",
-                filter: "brightness(0) invert(1)",
+          {/* Logo - desktop */}
+          <Link to={getPathWithEmail("/")} style={{ textDecoration: "none" }}>
+            <Box
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
               }}
-            />
-          </Box>
+            >
+              <img
+                src={Logo}
+                alt="Logo"
+                style={{
+                  height: "40px",
+                  width: "auto",
+                  filter: "brightness(0) invert(1)",
+                }}
+              />
+            </Box>
+          </Link>
 
+          {/* Mobile navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="navigation menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -103,66 +115,76 @@ function Navbar() {
                 display: { xs: "block", md: "none" },
               }}
             >
+              {/* Mobile menu items */}
               {[...pages, ...authPages].map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    <Link
-                      to={`/${page.toLowerCase()}${
-                        email ? `?email=${email}` : ""
-                      }`}
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      {page}
-                    </Link>
-                  </Typography>
+                <MenuItem
+                  key={page.name}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                  }}
+                  component={Link}
+                  to={getPathWithEmail(page.path)}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
+          {/* Logo - mobile */}
+          <Link
+            to={getPathWithEmail("/")}
+            style={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: "flex-start",
+              textDecoration: "none",
+            }}
+          >
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <img
+                src={Logo}
+                alt="Logo"
+                style={{
+                  height: "40px",
+                  width: "auto",
+                  filter: "brightness(0) invert(1)",
+                }}
+              />
+            </Box>
+          </Link>
+
+          {/* Desktop navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 component={Link}
+                to={getPathWithEmail(page.path)}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Link
-                  to={
-                    page === "Main"
-                      ? `/${email ? `?email=${email}` : ""}`
-                      : `/${page.toLowerCase()}${
-                          email ? `?email=${email}` : ""
-                        }`
-                  }
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {page}
-                </Link>
+                {page.name}
               </Button>
             ))}
           </Box>
 
+          {/* Auth buttons - desktop */}
           <Box sx={{ ml: "auto", display: { xs: "none", md: "flex" } }}>
             {authPages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 component={Link}
-                to={`/${page.toLowerCase()}`}
+                to={getPathWithEmail(page.path)}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                <Link
-                  to={`/${page.toLowerCase()}${email ? `?email=${email}` : ""}`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {page}
-                </Link>
+                {page.name}
               </Button>
             ))}
           </Box>
 
+          {/* User menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -186,19 +208,15 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  {setting === "Profile" ? (
-                    <Typography textAlign="center">
-                      <Link
-                        to={`/profile${email ? `?email=${email}` : ""}`}
-                        style={{ textDecoration: "none", color: "inherit" }}
-                      >
-                        {setting}
-                      </Link>
-                    </Typography>
-                  ) : (
-                    <Typography textAlign="center">{setting}</Typography>
-                  )}
+                <MenuItem 
+                key={setting.name} 
+                onClick={() => {
+                  handleCloseUserMenu();
+                }}
+                component={Link}
+                to={getPathWithEmail(setting.path)}
+              >
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>

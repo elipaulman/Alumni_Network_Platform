@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const userSchema = new Schema({
   firstName: {
@@ -14,8 +15,8 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
-  location: {
-    type: String
+  location: { 
+    type: String 
   },
   password: {
     type: String,
@@ -24,16 +25,12 @@ const userSchema = new Schema({
   interests: {
     type: String
   },
-  location: { 
-    type: String
-  },
   description: { 
     type: String 
   },
   category: { 
     type: String
-   },
-  
+  },
   artCategory: { 
     type: String 
   },
@@ -43,6 +40,17 @@ const userSchema = new Schema({
   }]
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+// Pre-save hook to hash the password
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
+const User = mongoose.model('User', userSchema);
 export default User;

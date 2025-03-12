@@ -4,51 +4,12 @@ import multer from 'multer';
 import alumniRoutes from './alumniRoutes.js';
 import User from '../models/user.js';
 import Post from '../models/post.js';
+import bcrypt from 'bcrypt';
+
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-// router.get('/users/:email', async (req, res) => {
-//   try {
-//     const user = await User.findOne({ email: req.params.email });
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-//     res.json(user);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Error fetching user profile' });
-//   }
-// });
-
-// Update user profile picture
-// router.post('/users/profile-picture', upload.single('profilePicture'), async (req, res) => {
-//   try {
-//     const email = req.cookies.email; // Get email from cookie
-
-//     if (!email) {
-//       return res.status(400).json({ error: 'User email not found in cookies' });
-//     }
-
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     // Update profile picture
-//     if (req.file) {
-//       user.profilePicture = {
-//         data: req.file.buffer,
-//         contentType: req.file.mimetype,
-//       };
-//     }
-
-//     await user.save();
-//     res.status(200).json({ message: 'Profile picture updated successfully' });
-//   } catch (error) {
-//     console.error('Error updating profile picture:', error);
-//     res.status(500).json({ error: 'Error updating profile picture' });
-//   }
-// });
 // Create a new user
 router.post('/users', async (req, res) => {
   try {
@@ -190,53 +151,57 @@ router.use('/alumni', alumniRoutes);
 router.post('/signup', async (req, res) => {
   try {
     const { firstName, lastName, email, password, interests, location } = req.body;
-    console.error(req.body)
+    console.log("Received signup data:", req.body);
+
     // Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
-    // Create new user
+    // Create new user; password will be hashed in the pre-save hook
     const newUser = new User({
-      firstName, lastName, email, password, interests, location
+      firstName,
+      lastName,
+      email,
+      password,
+      interests,
+      location
     });
-    console.error(newUser)
+    console.log("Creating new user:", newUser);
 
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ error: 'Error registering user' });
+    console.error("Error registering user:", error);
+    res.status(500).json({ error: error.message || 'Error registering user' });
   }
 });
-
 
 
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    
-    // Find the user by email
+    // Look up the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
-    // Check if the provided password matches
-    if (user.password !== password) { // For real-world applications, hash passwords and use bcrypt.compare()
-      return res.status(400).json({ error: 'Invalid password' });
-    } 
-    // res.cookie('email', email, {
-    //   httpOnly: false, // Accessible in JavaScript
-    //   maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-    // });
+    // Compare the provided password with the stored hashed password
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ error: "Incorrect password" });
+    }
 
-    // If login is successful, respond with user data or a token
-    res.status(200).json({ message: 'Login successful', user });
+    // Optionally, remove the password field before sending user data back
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    // Successful login – send back user data (or a token, if using JWT)
+    res.status(200).json(userResponse);
   } catch (error) {
-    console.error('Error logging in:', error);
-    res.status(500).json({ error: 'Error logging in' });
+    res.status(500).json({ error: error.message });
   }
 });
 
