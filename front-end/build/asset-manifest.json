@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4ccd9590.css",
+    "main.js": "/static/js/main.6db592cd.js",
+    "static/media/image1.png": "/static/media/image1.0f1098009eebb054532c.png",
+    "static/media/image2.png": "/static/media/image2.7ed9cdef7ee5467458a0.png",
+    "static/media/Bounce.png": "/static/media/Bounce.c816cb8786a1095f38a2.png",
+    "static/media/image3.png": "/static/media/image3.9ffcee44af1dad3edd46.png",
+    "static/media/mentor.png": "/static/media/mentor.b118d6c945b47ce57a44.png",
+    "static/media/artistPic.jpg": "/static/media/artistPic.7af4096c8dfe18a71e36.jpg",
+    "static/media/alumain.png": "/static/media/alumain.239bff75d671e1c01a6c.png",
+    "static/media/Augmented.jpg": "/static/media/Augmented.e0164f86136d9ca35eff.jpg",
+    "static/media/Grantee.jpg": "/static/media/Grantee.8843f82eb7f4bbb5080e.jpg",
+    "static/media/TeachMe.jpg": "/static/media/TeachMe.77d187dbc1d6762c2bbe.jpg",
+    "static/media/Hope.jpg": "/static/media/Hope.8fec6cb4f4d87f1973a5.jpg",
+    "static/media/stockpfp.png": "/static/media/stockpfp.52a1566725d196fe3177.png",
+    "static/media/Logo.png": "/static/media/Logo.ffbce259d709e9e1d831.png",
+    "index.html": "/index.html",
+    "main.4ccd9590.css.map": "/static/css/main.4ccd9590.css.map",
+    "main.6db592cd.js.map": "/static/js/main.6db592cd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4ccd9590.css",
+    "static/js/main.6db592cd.js"
+  ]
+}
