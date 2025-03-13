@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import path from 'path';
 import indexRouter from './routes/index.js';
 import dbRouter from './routes/db.js';
 import dbTestRouter from './routes/dbTest.js';
@@ -28,6 +29,14 @@ app.use(express.json());
 app.use('/', indexRouter);
 app.use('/db', dbRouter);
 app.use('/test', dbTestRouter);
+
+// Serve static files from the React app
+app.use(express.static(path.join(path.resolve(), 'front-end/build')));
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(path.resolve(), 'front-end/build', 'index.html'));
+});
 
 const PORT = process.env.PORT || 5050;
 const URI = process.env.ATLAS_URI || '';
