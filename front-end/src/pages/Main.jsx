@@ -4,10 +4,11 @@ import {
   Typography,
   Box,
   Card,
-  Button,
   Grid,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { Link as RouterLink } from "react-router-dom"; // Import React Router's Link
+import Button from "@mui/material/Button";
 import alumain from "../images/alumain.png";
 import EventIcon from "@mui/icons-material/Event";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -113,7 +114,8 @@ function Main() {
                     variant="contained"
                     sx={{ backgroundColor: "#00BDF2", "&:hover": { backgroundColor: "#009bbd" } }}
                     className="text-white font-bold py-2 px-4 rounded-full shadow-lg group-hover:shadow-2xl"
-                    href={card.link}
+                    component={RouterLink}
+                    to={card.link}
                   >
                     {card.buttonText}
                   </Button>
@@ -170,12 +172,3 @@ const cardsData = [
 ];
 
 export default Main;
-
-
-
-
-
-
-
-
-
